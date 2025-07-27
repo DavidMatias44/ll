@@ -1,0 +1,29 @@
+@import url('main.css');
+
+.table-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+table {
+    width: 65%;
+    /* border: var(--fill-color) solid 2px; */
+}
+
+table thead,
+table tbody th {
+    background-color: var(--fill-color);
+}
+
+table tbody {
+    text-align: center;
+}
+
+table th,
+table td {
+    border: var(--fill-color) solid 2px;
+    padding: 10px 0;
+}

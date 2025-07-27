@@ -1,0 +1,76 @@
+@import url('main.css');
+
+:root {
+    --button-hover: #e0fff9;
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    background-color: var(--fill-color);
+    border-radius: 20px;
+    padding: 60px 5px;
+    width: 25%;
+}
+
+.form label,
+.form input,
+.form textarea {
+    text-align: center;
+}
+
+input,
+textarea,
+select {
+    height: 1.5rem;
+    border-radius: 10px;
+    width: 65%;
+    font-size: 1.5rem;
+    padding: 10px 5px;
+}
+
+textarea {
+    min-height: 4rem;
+    max-height: 8rem;
+    max-width: 65%;
+}
+
+select {
+    height: 3rem;
+    text-align: center;
+    background-color: white;
+}
+
+.form button {
+    font-family: 'Times New Roman', Times, serif;
+    width: 65%;
+    height: 2rem;
+    border-radius: 10px;
+    margin-top: 2rem;
+    font-size: 1.5rem;
+    background-color: white;
+}
+
+.form button:hover {
+    background-color: var(--button-hover);
+}
+
+.form p {
+    margin-top: 1.5rem;
+    font-size: 1rem;
+}
+
+.error {
+    text-align: center;
+    color: rgb(255, 161, 161);
+    padding: 1rem;
+}

@@ -13,22 +13,23 @@
         <nav>
             <div>Task manager</div>
             <ul>
-                @if (Auth::check())
+                @auth
                     <li><a href="{{ route('dashboard') }}">Dashboard</a></li>
-                    <li><a href="{{ route('dashboard') }}">My account</a></li>
-                    {{-- <li><a href="{{ route('logout') }}">Cerrar sesión</a></li> --}}
+                    <li><a href="{{ route('profile.edit') }}">My account</a></li>
                     <li>
                         <form method="POST" action="{{ route('logout') }}" id="logout-form">
                             @csrf
                             <a href="#" onclick="logout()">Logout</a>
                         </form>
                     </li>
-                @else
+                @endauth
+
+                @guest
                     @if (!Route::is('login') && !Route::is('register'))
                         <li><a href="{{ route('login') }}">Login</a></li>
                         <li><a href="{{ route('register') }}">Create an account</a></li>
                     @endif
-                @endif
+                @endguest
             </ul>
         </nav>
 
