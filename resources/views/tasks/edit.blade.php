@@ -38,6 +38,9 @@
                 @endforeach
             </select>
             <button type="submit">Edit task</button>
+            <button type="button" onclick="location.href='{{ route('tasks.index') }}'" class="cancel-button">
+                Cancel
+            </button>
         </form>
     </div>
 @endsection

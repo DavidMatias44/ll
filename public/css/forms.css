@@ -2,6 +2,7 @@
 
 :root {
     --button-hover: #e0fff9;
+    --cancel-button-hover: #ffe0e0;
 }
 
 .form-container {
@@ -62,6 +63,14 @@ select {
 
 .form button:hover {
     background-color: var(--button-hover);
+}
+
+.form .cancel-button {
+    margin-top: 0.5rem;
+}
+
+.form .cancel-button:hover {
+    background-color: var(--cancel-button-hover);
 }
 
 .form p {
