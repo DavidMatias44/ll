@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\CreateTaskRequest;
+use App\Http\Requests\UpdateTaskRequest;
 use App\Models\Task;
 use Auth;
 
@@ -20,17 +21,11 @@ class TaskController extends Controller
         return view('tasks.create');
     }
 
-    public function store(Request $request)
+    public function store(CreateTaskRequest $request)
     {
-        $validated = $request->validate([
-            'name' => 'required|max:255',
-            'description' => 'required|max:255',
-            'priority' => 'required',
-            'state' => 'required'
-        ]);
-        $validated['user_id'] = Auth::id();
+        $request['user_id'] = Auth::id();
+        Task::create($request->all());
 
-        Task::create($validated);
         return redirect(route('tasks.index'));
     }
 
@@ -46,17 +41,9 @@ class TaskController extends Controller
         return view('tasks.edit')->with('task', $task);
     }
 
-    public function update(Request $request, string $id)
+    public function update(UpdateTaskRequest $request, Task $task)
     {
-        $validated = $request->validate([
-            'name' => 'required|max:255',
-            'description' => 'max:255',
-            'priority' => 'required',
-            'state' => 'required'
-        ]);
-
-        $task = Task::findOrFail($id);
-        $task->update($validated);
+        $task->update($request->all());
 
         return redirect(route('tasks.index'));
     }
