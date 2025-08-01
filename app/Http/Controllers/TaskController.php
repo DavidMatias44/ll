@@ -26,7 +26,7 @@ class TaskController extends Controller
         $request['user_id'] = Auth::id();
         Task::create($request->all());
 
-        return redirect(route('tasks.index'));
+        return redirect()->route('tasks.index')->withSuccess('Task was created successfully.');
     }
 
     public function show(string $id)
@@ -45,7 +45,7 @@ class TaskController extends Controller
     {
         $task->update($request->all());
 
-        return redirect(route('tasks.index'));
+        return redirect()->route('tasks.index')->withSuccess('Task was edited successfully.');
     }
 
     public function destroy(string $id)

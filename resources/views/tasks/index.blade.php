@@ -7,6 +7,14 @@
 
 @section('main')
     <h2>Tasks</h2>
+
+    @if (session('success'))
+        <div class="alert alert-success" id="success-message">
+            <p>{{ session('success') }}</p>
+            <button type="button" class="button-close" id="btn-close">&times;</button>
+        </div>
+    @endif
+
     @if (!$tasks->isEmpty())
         <section class="options-container">
             <button class="button-option" type="button" onclick="location.href='{{ route('tasks.create') }}'">
@@ -73,7 +81,55 @@
         .button-delete:hover {
             border: none;
         }
-    </style>   
+
+        .alert {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 25%;
+            margin: 0 auto;
+            min-height: 4rem; 
+            border-radius: 15px;
+            position: relative;
+        }
+
+        .alert-success {
+            background-color: #bae1c1ff;
+            color: #4cb35fff
+        }
+
+        .button-close {
+            position: absolute;
+            top: 0;
+            right: 0.5rem;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .button-close:hover {
+            background: none;
+            border: none;
+            color: #4cb35fff
+        }
+    </style>
+    <script>
+        setTimeout(() => {
+            hideSuccessAlert()
+        }, 5000);
+
+        document.getElementById('btn-close').addEventListener('click', function () {
+            hideSuccessAlert();
+        });
+
+
+        function hideSuccessAlert() {
+            document.getElementById('success-message').style.display = 'none';
+        }
+    </script>
 @endsection
 
 
