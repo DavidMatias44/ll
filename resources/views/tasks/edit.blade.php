@@ -14,7 +14,7 @@
         </ul>
     @endif
     <div class="form-container">
-        <form method="POST" action="{{ route('tasks.update', $task->id) }}" class="form">
+        <form method="POST" action="{{ route('tasks.update', $task) }}" class="form">
             @csrf
             @method('PUT')
             <label for="name">Name: </label>
