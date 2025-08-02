@@ -16,4 +16,13 @@ enum Priority: int
             self::LOW => "Low",
         };
     }
+
+    public function cssClass(): string
+    {
+        return match($this) {
+            self::HIGH => "high-priority",
+            self::MEDIUM=> "medium-priority",
+            self::LOW => "low-priority",
+        };
+    }
 }

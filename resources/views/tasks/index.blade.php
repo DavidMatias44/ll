@@ -41,8 +41,12 @@
                         <tr>
                             <td>{{ $task->name }}</td>
                             <td>{{ $task->description }}</td>
-                            <td>{{ $task->priority->label() }}</td>
-                            <td>{{ $task->state->label() }}</td>
+                            <td class="{{ $task->priority->cssClass() }}">
+                                <p>{{ $task->priority->label() }}</p>
+                            </td>
+                            <td class="{{ $task->state->cssClass() }}">
+                                <p>{{ $task->state->label() }}</p>
+                            </td>
                             <td>
                                 <a href="{{ route('tasks.show', $task->id) }}">Details</a>
                                 <a href="{{ route('tasks.edit', $task->id) }}">Edit</a>
@@ -114,6 +118,31 @@
             background: none;
             border: none;
             color: #4cb35fff
+        }
+
+        td p {
+            width: 50%;
+            margin: 0 auto;
+            border-radius: 15px;
+            padding: 5px;
+        }
+
+        .high-priority p,
+        .to-do-state p {
+            background-color: #f87a7aff;
+        }
+        
+        .medium-priority p {
+            background-color: #f8b97aff;
+        }
+
+        .low-priority  p,
+        .in-progress-state p {
+            background-color: #f8ee7aff;
+        }
+
+        .completed-state p {
+            background-color: #7af8a6ff;
         }
     </style>
     <script>

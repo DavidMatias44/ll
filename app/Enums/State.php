@@ -16,4 +16,13 @@ enum State: int
             self::COMPLETED  => "Completed",
         };
     }
+
+    public function cssClass(): string
+    {
+        return match($this) {
+            self::TODO => "to-do-state",
+            self::IN_PROGRESS => "in-progress-state",
+            self::COMPLETED  => "completed-state",
+        };
+    }
 }
