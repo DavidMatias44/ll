@@ -52,7 +52,7 @@
                                 <form method="POST" action="{{ route('tasks.delete', $task->id) }}" id="delete-form-{{ $task->id }}">
                                     @csrf
                                     @method('DELETE')
-                                    <button class="delete-button" type="submit">Delete</button>
+                                    <button class="delete-button" onclick="return confirm('Are you sure?')" type="submit">Delete</button>
                                 </form>
                             </td>
                         </tr>
