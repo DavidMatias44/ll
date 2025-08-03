@@ -10,12 +10,15 @@
 
 table {
     width: 65%;
-    /* border: var(--fill-color) solid 2px; */
+}
+
+.detail-table {
+    width: 35%;
 }
 
 table thead,
 table tbody th {
-    background-color: var(--fill-color);
+    background-color: var(--table-cell-border-color);
 }
 
 table tbody {
@@ -24,6 +27,47 @@ table tbody {
 
 table th,
 table td {
-    border: var(--fill-color) solid 2px;
+    border: var(--table-cell-border-color) solid 2px;
     padding: 10px 0;
+}
+
+#delete-form {
+    display: inline;
+}
+
+.delete-button {
+    border: none;
+    background-color: white;
+    font-size: 1.5rem;
+    color: blue;
+    font-family: 'Times New Roman', Times, serif;
+}
+        
+.delete-button:hover {
+    border: none;
+}
+
+td p {
+    width: 50%;
+    margin: 0 auto;
+    border-radius: 15px;
+    padding: 5px;
+}
+
+.high-priority p,
+.to-do-state p {
+    background-color: #f87a7aff;
+}
+        
+.medium-priority p {
+    background-color: #f8b97aff;
+}
+
+.low-priority  p,
+.in-progress-state p {
+    background-color: #f8ee7aff;
+}
+
+.completed-state p {
+    background-color: #7af8a6ff;
 }

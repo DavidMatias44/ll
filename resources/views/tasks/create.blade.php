@@ -37,8 +37,8 @@
                     {{ $todoState->label() }}
                 </option>
             </select>
-            <button type="submit">Create new task</button>
-            <button type="button" onclick="location.href='{{ route('tasks.index') }}'" class="cancel-button">
+            <button class="accept-button" type="submit">Create new task</button>
+            <button class="cancel-button" type="button" onclick="location.href='{{ route('tasks.index') }}'">
                 Cancel
             </button>
         </form>

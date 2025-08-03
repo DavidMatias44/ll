@@ -2,7 +2,6 @@
 
 @push('css-files')
     <link rel="stylesheet" href="{{ asset('css/tables.css') }}">    
-    <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">    
 @endpush
 
 @section('main')
@@ -11,13 +10,13 @@
     @if (session('success'))
         <div class="alert alert-success" id="success-message">
             <p>{{ session('success') }}</p>
-            <button type="button" class="button-close" id="btn-close">&times;</button>
+            <button type="button" class="close-button" id="btn-close">&times;</button>
         </div>
     @endif
 
     @if (!$tasks->isEmpty())
         <section class="options-container">
-            <button class="button-option" type="button" onclick="location.href='{{ route('tasks.create') }}'">
+            <button class="option-button" type="button" onclick="location.href='{{ route('tasks.create') }}'">
                 Add a new task
             </button>
         </section>
@@ -53,7 +52,7 @@
                                 <form method="POST" action="{{ route('tasks.delete', $task->id) }}" id="delete-form-{{ $task->id }}">
                                     @csrf
                                     @method('DELETE')
-                                    <button class="button-delete" type="submit">Delete</button>
+                                    <button class="delete-button" type="submit">Delete</button>
                                 </form>
                             </td>
                         </tr>
@@ -64,87 +63,7 @@
     @else
         <p>You do not have tasks registered yet. Add a new one <a href="{{ route('tasks.create') }}">here</a>.</p>
     @endif
-    <style>
-        .options-container {
-            flex-direction: row;
-            justify-content: center;
-        }
-        
-        #delete-form {
-            display: inline;
-        }
 
-        .button-delete {
-            border: none;
-            background-color: white;
-            font-size: 1.5rem;
-            color: blue;
-            font-family: 'Times New Roman', Times, serif;
-        }
-        
-        .button-delete:hover {
-            border: none;
-        }
-
-        .alert {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            width: 25%;
-            margin: 0 auto;
-            min-height: 4rem; 
-            border-radius: 15px;
-            position: relative;
-        }
-
-        .alert-success {
-            background-color: #bae1c1ff;
-            color: #4cb35fff
-        }
-
-        .button-close {
-            position: absolute;
-            top: 0;
-            right: 0.5rem;
-            background: none;
-            border: none;
-            color: white;
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
-
-        .button-close:hover {
-            background: none;
-            border: none;
-            color: #4cb35fff
-        }
-
-        td p {
-            width: 50%;
-            margin: 0 auto;
-            border-radius: 15px;
-            padding: 5px;
-        }
-
-        .high-priority p,
-        .to-do-state p {
-            background-color: #f87a7aff;
-        }
-        
-        .medium-priority p {
-            background-color: #f8b97aff;
-        }
-
-        .low-priority  p,
-        .in-progress-state p {
-            background-color: #f8ee7aff;
-        }
-
-        .completed-state p {
-            background-color: #7af8a6ff;
-        }
-    </style>
     <script>
         setTimeout(() => {
             hideSuccessAlert()
@@ -153,7 +72,6 @@
         document.getElementById('btn-close').addEventListener('click', function () {
             hideSuccessAlert();
         });
-
 
         function hideSuccessAlert() {
             document.getElementById('success-message').style.display = 'none';

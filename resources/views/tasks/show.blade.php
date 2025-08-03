@@ -2,32 +2,19 @@
 
 @push('css-files')
     <link rel="stylesheet" href="{{ asset('css/tables.css') }}"> 
-    <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}"> 
 @endpush
 
 @section('main')
-    <style>
-        table {
-            width: 35%;
-        }
-
-        .options-container {
-            flex-direction: row;
-            align-items: center;
-            justify-content: center;
-        }
-    </style>
-
     <h2>Task details</h2>
 
     <section class="options-container">
-        <button class="button-option" type="button" onclick="location.href='{{ route('tasks.edit', $task->id) }}'">
+        <button class="option-button" type="button" onclick="location.href='{{ route('tasks.edit', $task->id) }}'">
             Edit this task
         </button>
     </section>
 
     <div class="table-container">
-        <table>
+        <table class="detail-table">
             <tbody>
                 <tr>
                     <th>Name: </th>

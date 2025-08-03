@@ -20,7 +20,7 @@
             <input type="email" name="email" id="email">
             <label for="password">Password: </label>
             <input type="password" name="password" id="password">
-            <button type="submit">Login</button>
+            <button class="accept-button" type="submit">Login</button>
 
             <p>If you do not have an account click <a href="{{ route('register') }}">here</a>.</p>
         </form>

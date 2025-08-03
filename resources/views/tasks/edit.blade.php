@@ -9,7 +9,7 @@
     @if ($errors->any())
         <ul>
             @foreach ($errors->all() as $error)
-                <li class="error">{{ $error }}</li>
+                <li class="form-validation-error">{{ $error }}</li>
             @endforeach 
         </ul>
     @endif
@@ -37,8 +37,8 @@
                     </option>
                 @endforeach
             </select>
-            <button type="submit">Edit task</button>
-            <button type="button" onclick="location.href='{{ route('tasks.index') }}'" class="cancel-button">
+            <button class="accept-button" type="submit">Edit task</button>
+            <button class="cancel-button" type="button" onclick="location.href='{{ route('tasks.index') }}'">
                 Cancel
             </button>
         </form>
