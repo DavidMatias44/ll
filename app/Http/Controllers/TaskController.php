@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
+use Illuminate\Support\Facades\Gate;
 use App\Models\Task;
 use Auth;
 
@@ -11,6 +12,8 @@ class TaskController extends Controller
 {
     public function index()
     {
+        Gate::authorize('viewAny', Task::class);
+
         $userId = Auth::id();
         $tasks = Task::whereUserId($userId)->get();
         return view('tasks.index')->with('tasks', $tasks);
@@ -18,6 +21,8 @@ class TaskController extends Controller
 
     public function create()
     {
+        Gate::authorize('create', Task::class);
+
         return view('tasks.create');
     }
 
@@ -29,31 +34,32 @@ class TaskController extends Controller
         return redirect()->route('tasks.index')->withSuccess('Task was created successfully.');
     }
 
-    public function show(string $id)
+    public function show(Task $task)
     {
-        $task = Task::findOrFail($id);
+        Gate::authorize('view', $task);
+
         return view('tasks.show')->with('task', $task);
     }
 
-    public function edit(string $id)
+    public function edit(Task $task)
     {
-        $task = Task::findOrFail($id);
+        Gate::authorize('update', $task);
+
         return view('tasks.edit')->with('task', $task);
     }
 
     public function update(UpdateTaskRequest $request, Task $task)
     {
         $task->update($request->all());
-
         return redirect()->route('tasks.index')->withSuccess('Task was edited successfully.');
     }
 
-    public function destroy(string $id)
+    public function destroy(Task $task)
     {
-        $task = Task::findOrFail($id);
-        if ($task) {
-            $task->delete();
-        }
+        Gate::authorize('delete', $task);
+
+        $task->delete();
+
         return redirect(route('tasks.index'));
     }
 }

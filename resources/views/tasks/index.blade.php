@@ -47,9 +47,9 @@
                                 <p>{{ $task->state->label() }}</p>
                             </td>
                             <td>
-                                <a href="{{ route('tasks.show', $task->id) }}">Details</a>
-                                <a href="{{ route('tasks.edit', $task->id) }}">Edit</a>
-                                <form method="POST" action="{{ route('tasks.delete', $task->id) }}" id="delete-form-{{ $task->id }}">
+                                <a href="{{ route('tasks.show', $task) }}">Details</a>
+                                <a href="{{ route('tasks.edit', $task) }}">Edit</a>
+                                <form method="POST" action="{{ route('tasks.delete', $task) }}" id="delete-form-{{ $task->id }}">
                                     @csrf
                                     @method('DELETE')
                                     <button class="delete-button" onclick="return confirm('Are you sure?')" type="submit">Delete</button>
