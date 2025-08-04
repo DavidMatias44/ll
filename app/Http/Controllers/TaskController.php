@@ -15,7 +15,7 @@ class TaskController extends Controller
         Gate::authorize('viewAny', Task::class);
 
         $userId = Auth::id();
-        $tasks = Task::whereUserId($userId)->get();
+        $tasks = Task::whereUserId($userId)->paginate(5);
         return view('tasks.index')->with('tasks', $tasks);
     }
 

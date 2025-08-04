@@ -59,6 +59,11 @@
                     @endforeach
                 </tbody>
             </table>
+
+            <br>
+            <div>
+                {{ $tasks->links()  }}
+            </div>
         </div>
     @else
         <p>You do not have tasks registered yet. Add a new one <a href="{{ route('tasks.create') }}">here</a>.</p>

@@ -114,3 +114,7 @@ nav > div {
     border: none;
     color: #4cb35fff
 }
+
+.paginator {
+    border-radius: 15px;
+}
