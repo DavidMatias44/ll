@@ -2,11 +2,12 @@
 
 @push('css-files')
     <link rel="stylesheet" href="{{ asset('css/tables.css') }}">    
+    <link rel="stylesheet" href="{{ asset('css/forms.css') }}">    
 @endpush
 
 @section('main')
     <h2>Tasks</h2>
-
+    
     @if (session('success'))
         <div class="alert alert-success" id="success-message">
             <p>{{ session('success') }}</p>
@@ -19,6 +20,24 @@
             <button class="option-button" type="button" onclick="location.href='{{ route('tasks.create') }}'">
                 Add a new task
             </button>
+            <form class="filter-form">
+                @csrf
+                <label for="priority">Filter by priority: </label>
+                <select class="filter-select" name="priority" id="filter-select-priority">
+                    <option value="" selected disabled>Choose an option</option>
+                    @foreach (App\Enums\Priority::cases() as $priority)
+                        <option value="{{ $priority->value }}">{{ $priority->label() }}</option>
+                    @endforeach
+                </select>
+                <label for="state">Filter by state: </label>
+                <select class="filter-select" name="state" id="filter-select-state">
+                    <option value="" selected disabled>Choose an option</option>
+                    @foreach (App\Enums\State::cases() as $state)
+                        <option value="{{ $state->value }}">{{ $state->label() }}</option>
+                    @endforeach
+                </select>
+                <button class="option-button">Filter</button>
+            </form>
         </section>
 
         <div class="table-container">
@@ -62,7 +81,7 @@
 
             <br>
             <div>
-                {{ $tasks->links()  }}
+                {{ $tasks->appends(request()->query())->links()  }}
             </div>
         </div>
     @else

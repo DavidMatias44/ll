@@ -3,6 +3,7 @@
     --navbar-text-color: #1E2487;
     --form-fill-color: #D9D9D9;
     --table-cell-border-color: #D9D9D9;
+    --form-option-border-color: #D9D9D9;
     --option-button-hover: white;
     --option-button-border-hover: #D9D9D9;
     --accept-button-hover: #e0fff9;
@@ -54,8 +55,8 @@ nav > div {
 }
 
 .options-container {
-    flex-direction: row;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
     display: flex;
     gap: 2rem;
     margin-top: 2rem;
@@ -74,6 +75,7 @@ nav > div {
     font-size: 2rem;
     padding: 10px;
     border-radius: 15px;
+    width: 20%;
 }
 
 .option-button:hover {

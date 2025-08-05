@@ -4,18 +4,24 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
+use App\Http\Requests\TaskFilterRequest;
 use Illuminate\Support\Facades\Gate;
 use App\Models\Task;
 use Auth;
 
 class TaskController extends Controller
 {
-    public function index()
+    public function index(TaskFilterRequest $request)
     {
         Gate::authorize('viewAny', Task::class);
 
         $userId = Auth::id();
-        $tasks = Task::whereUserId($userId)->paginate(5);
+        $tasks = Task::query()
+            ->whereUserId($userId)
+            ->state($request->state)
+            ->priority($request->priority)
+            ->paginate(5);
+
         return view('tasks.index')->with('tasks', $tasks);
     }
 
