@@ -96,6 +96,14 @@ select {
     font-size: 1rem;
 }
 
+.form-container .big-p {
+    margin-top: -2rem;
+    margin-bottom: 2rem;
+    font-size: 1.5rem;
+    padding: 0px 15px;
+    text-align: center;
+}
+
 .form-validation-error {
     text-align: center;
     color: rgb(255, 161, 161);

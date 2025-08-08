@@ -23,6 +23,7 @@
             <button class="accept-button" type="submit">Login</button>
 
             <p>If you do not have an account click <a href="{{ route('register') }}">here</a>.</p>
+            <p>Forgot your password? Click <a href="{{ route('password.request') }}">here</a>.</p>
         </form>
     </div>
 @endsection
