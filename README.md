@@ -27,13 +27,14 @@ git clone https://github.com/DavidMatias44/ll.git
 cd ll
 composer install
 cp .env.example .env
-php artisan ket:generate
+php artisan key:generate
 # Edit the .env file with your DB credentials
 php artisan migrate
 php artisan serve
 ```
 
 ## Roadmap
-- Add success and error messages
-- Filter tasks by state or priority
-- Use Laravel Policies (authorization logic)
+- Implement the `forget-password` feature.
+- Add notifications when a task is completed.
+- Work with files to save or load tasks.
+- Unit Testing.
