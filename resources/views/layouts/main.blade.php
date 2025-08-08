@@ -14,8 +14,11 @@
             <div>Task manager</div>
             <ul>
                 @auth
-                    <li><a href="{{ route('dashboard') }}">Dashboard</a></li>
-                    <li><a href="{{ route('profile.edit') }}">My account</a></li>
+                    @if (!Route::is('verification.notice'))
+                        <li><a href="{{ route('dashboard') }}">Dashboard</a></li>
+                        <li><a href="{{ route('profile.edit') }}">My account</a></li>
+                    @endif
+
                     <li>
                         <form method="POST" action="{{ route('logout') }}" id="logout-form">
                             @csrf
@@ -25,7 +28,7 @@
                 @endauth
 
                 @guest
-                    @if (!Route::is('login') && !Route::is('register'))
+                    @if (!(Route::is('login') || Route::is('register')))
                         <li><a href="{{ route('login') }}">Login</a></li>
                         <li><a href="{{ route('register') }}">Create an account</a></li>
                     @endif

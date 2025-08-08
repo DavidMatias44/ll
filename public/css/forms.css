@@ -43,6 +43,10 @@
     text-align: center;
 }
 
+.form .big-label {
+    font-size: 2rem;
+}
+
 input,
 textarea,
 select {
