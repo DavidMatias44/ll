@@ -33,11 +33,7 @@ test('a user can create a task', function () {
 });
 
 test('a user cannot create a task without name', function () {
-    $user = App\Models\User::factory()->create([
-        'name' => 'Test User',
-        'email' => 'test@example.com',
-        'password' => 'password',
-    ]);
+    $user = App\Models\User::factory()->create();
     $this->actingAs($user); // User has to be authenticated to create a new task.
 
     $response = $this->post('/tasks/create', [
@@ -53,11 +49,7 @@ test('a user cannot create a task without name', function () {
 });
 
 test('a user cannot create a task without description', function () {
-    $user = App\Models\User::factory()->create([
-        'name' => 'Test User',
-        'email' => 'test@example.com',
-        'password' => 'password',
-    ]);
+    $user = App\Models\User::factory()->create();
     $this->actingAs($user); // User has to be authenticated to create a new task.
 
     $response = $this->post('/tasks/create', [
@@ -73,11 +65,7 @@ test('a user cannot create a task without description', function () {
 });
 
 test('a user cannot create a task without state', function () {
-    $user = App\Models\User::factory()->create([
-        'name' => 'Test User',
-        'email' => 'test@example.com',
-        'password' => 'password',
-    ]);
+    $user = App\Models\User::factory()->create();
     $this->actingAs($user); // User has to be authenticated to create a new task.
 
     $response = $this->post('/tasks/create', [
