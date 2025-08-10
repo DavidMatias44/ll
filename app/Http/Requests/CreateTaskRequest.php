@@ -3,6 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+use App\Enums\State;
+use App\Enums\Priority;
 
 class CreateTaskRequest extends FormRequest
 {
@@ -16,8 +19,8 @@ class CreateTaskRequest extends FormRequest
         return [
             'name' => 'required|max:255|unique:tasks',
             'description' => 'required|max:255',
-            'state' => 'required',
-            'priority' => 'required',
+            'state' => ['required', Rule::enum(State::class)],
+            'priority' => ['required', Rule::enum(Priority::class)],
         ];
     }
 }
