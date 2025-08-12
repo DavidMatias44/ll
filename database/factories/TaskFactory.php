@@ -12,7 +12,7 @@ class TaskFactory extends Factory
     {
         return [
             'name' => fake()->unique()->word(),
-            'description' => fake()->paragraph(),
+            'description' => fake()->sentence(),
             'state' => State::TODO->value,
             'priority' => fake()->randomElement(Priority::cases())->value,
         ];
