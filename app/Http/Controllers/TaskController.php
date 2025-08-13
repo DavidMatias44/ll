@@ -34,6 +34,8 @@ class TaskController extends Controller
 
     public function store(CreateTaskRequest $request)
     {
+        Gate::authorize('create', Task::class);
+        
         $request['user_id'] = Auth::id();
         Task::create($request->all());
 
@@ -56,6 +58,8 @@ class TaskController extends Controller
 
     public function update(UpdateTaskRequest $request, Task $task)
     {
+        Gate::authorize('udpate', $task);
+
         $task->update($request->all());
         return redirect()->route('tasks.index')->withSuccess('Task was edited successfully.');
     }
