@@ -58,7 +58,7 @@ class TaskController extends Controller
 
     public function update(UpdateTaskRequest $request, Task $task)
     {
-        Gate::authorize('udpate', $task);
+        Gate::authorize('update', $task);
 
         $task->update($request->all());
         return redirect()->route('tasks.index')->withSuccess('Task was edited successfully.');
