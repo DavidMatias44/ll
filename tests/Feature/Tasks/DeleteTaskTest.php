@@ -30,5 +30,5 @@ test('a user can delete a task', function () {
         'state' => $this->task->state->value,
         'priority' => $this->task->priority->value,
         'user_id' => $this->task->user_id,
-    ]);  
+    ]);
 });

@@ -1,7 +1,7 @@
 <?php
 
-use App\Models\User;
 use App\Models\Task;
+use App\Models\User;
 
 beforeEach(function () {
     $this->user = User::factory()->create();
@@ -37,7 +37,7 @@ test('a user can only see 5 tasks per page', function () {
 
     $response->assertOk();
     $response->assertViewHas('tasks', function ($viewTasks) use ($tasks) {
-        return $viewTasks->count() == 5 && $viewTasks->contains($tasks[0] && !$viewTasks->contains($tasks[5]));
+        return $viewTasks->count() == 5 && $viewTasks->contains($tasks[0] && ! $viewTasks->contains($tasks[5]));
     });
 });
 

@@ -29,12 +29,12 @@ test('a user can update a task', function () {
         'state' => $this->task->state->value,
         'priority' => $this->task->priority->value,
     ]);
-    
+
     $response->assertRedirect('/tasks');
     $response->assertSessionHas('success', 'Task was edited successfully.');
     $this->assertDatabaseHas('tasks', [
         'id' => $this->task->id,
-        'name' => 'updated'
+        'name' => 'updated',
     ]);
 });
 

@@ -25,7 +25,7 @@ test('a user gets the correct data when seeing a task', function () {
     $response = $this->get(route('tasks.show', $this->task));
 
     $response->assertOk();
-    $response->assertViewHas('task', function($viewTask) {
+    $response->assertViewHas('task', function ($viewTask) {
         return $viewTask->id == $this->task->id;
     });
     $response->assertSeeText($this->task->name);

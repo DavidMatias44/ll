@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateTaskRequest;
-use App\Http\Requests\UpdateTaskRequest;
 use App\Http\Requests\TaskFilterRequest;
-use Illuminate\Support\Facades\Gate;
+use App\Http\Requests\UpdateTaskRequest;
 use App\Models\Task;
 use Auth;
+use Illuminate\Support\Facades\Gate;
 
 class TaskController extends Controller
 {
@@ -35,7 +35,7 @@ class TaskController extends Controller
     public function store(CreateTaskRequest $request)
     {
         Gate::authorize('create', Task::class);
-        
+
         $request['user_id'] = Auth::id();
         Task::create($request->all());
 
@@ -61,6 +61,7 @@ class TaskController extends Controller
         Gate::authorize('update', $task);
 
         $task->update($request->all());
+
         return redirect()->route('tasks.index')->withSuccess('Task was edited successfully.');
     }
 

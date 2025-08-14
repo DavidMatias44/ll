@@ -10,19 +10,19 @@ enum State: int
 
     public function label(): string
     {
-        return match($this) {
-            self::TODO => "To Do",
-            self::IN_PROGRESS => "In progress",
-            self::COMPLETED  => "Completed",
+        return match ($this) {
+            self::TODO => 'To Do',
+            self::IN_PROGRESS => 'In progress',
+            self::COMPLETED => 'Completed',
         };
     }
 
     public function cssClass(): string
     {
-        return match($this) {
-            self::TODO => "to-do-state",
-            self::IN_PROGRESS => "in-progress-state",
-            self::COMPLETED  => "completed-state",
+        return match ($this) {
+            self::TODO => 'to-do-state',
+            self::IN_PROGRESS => 'in-progress-state',
+            self::COMPLETED => 'completed-state',
         };
     }
 }

@@ -4,14 +4,14 @@ namespace App\Models;
 
 use App\Enums\Priority;
 use App\Enums\State;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Task extends Model
 {
     use HasFactory;
-    
+
     protected $fillable = [
         'name',
         'description',
@@ -22,24 +22,24 @@ class Task extends Model
     ];
 
     protected $hidden = [];
-    
+
     protected $casts = [
         'priority' => Priority::class,
         'state' => State::class,
     ];
 
-    public function user(): BelongsTo 
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    public function scopeState($query, $state) 
+    public function scopeState($query, $state)
     {
-        return $query->when(!is_null($state), fn($q) => $q->where('state', $state));
+        return $query->when(! is_null($state), fn ($q) => $q->where('state', $state));
     }
 
     public function scopePriority($query, $priority)
     {
-        return $query->when(!is_null($priority), fn($q) => $q->where('priority', $priority));
+        return $query->when(! is_null($priority), fn ($q) => $q->where('priority', $priority));
     }
 }
