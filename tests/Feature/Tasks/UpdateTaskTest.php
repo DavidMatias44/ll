@@ -1,171 +1,137 @@
 <?php
 
-test('a guest cannot update a task', function () {
-    $user = App\Models\User::factory()->create();
-    $task = App\Models\Task::factory()->create([
-        'user_id' => $user->id,
-    ]);
+beforeEach(function () {
+    $this->user = App\Models\User::factory()->create();
+    $this->task = App\Models\Task::factory()->for($this->user)->create();
+});
 
-    $response = $this->put(route('tasks.update', $task), [
+test('a guest cannot update a task', function () {
+    $response = $this->put(route('tasks.update', $this->task), [
         'name' => 'updated',
-        'description' => $task->description,
-        'state' => App\Enums\State::TODO->value,
-        'priority' => App\Enums\Priority::HIGH->value,
+        'description' => $this->task->description,
+        'state' => $this->task->state->value,
+        'priority' => $this->task->priority->value,
     ]);
 
     $response->assertRedirect('/login');
     $this->assertDatabaseMissing('tasks', [
-        'id' => $task->id,
+        'id' => $this->task->id,
         'name' => 'updated',
     ]);
 });
 
 test('a user can update a task', function () {
-    $user = App\Models\User::factory()->create();
-    $this->actingAs($user);
-    $task = App\Models\Task::factory()->create([
-        'user_id' => $user->id,
-    ]);
-    
-    $response = $this->put(route('tasks.update', $task), [
+    $this->actingAs($this->user);
+
+    $response = $this->put(route('tasks.update', $this->task), [
         'name' => 'updated',
-        'description' => $task->description,
-        'state' => $task->state->value,
-        'priority' => $task->priority->value,
+        'description' => $this->task->description,
+        'state' => $this->task->state->value,
+        'priority' => $this->task->priority->value,
     ]);
     
     $response->assertRedirect('/tasks');
     $response->assertSessionHas('success', 'Task was edited successfully.');
     $this->assertDatabaseHas('tasks', [
-        'id' => $task->id,
+        'id' => $this->task->id,
         'name' => 'updated'
     ]);
 });
 
 test('a user cannot update a task without name', function () {
-    $user = App\Models\User::factory()->create();
-    $this->actingAs($user);
-    $task = App\Models\Task::factory()->create([
-        'user_id' => $user->id,
-    ]);
+    $this->actingAs($this->user);
 
-    $newDescription = fake()->paragraph();
-    $response = $this->put(route('tasks.update', $task), [
-        'description' => $newDescription,
-        'state' => $task->state->value,
-        'priority' => $task->priority->value,
+    $response = $this->put(route('tasks.update', $this->task), [
+        'description' => 'Update test',
+        'state' => $this->task->state->value,
+        'priority' => $this->task->priority->value,
     ]);
 
     $response->assertSessionHasErrors(['name']);
     $this->assertDatabaseMissing('tasks', [
-        'id' => $task->id,
-        'description' => $newDescription,
+        'id' => $this->task->id,
+        'description' => 'Update test',
     ]);
 });
 
 test('a user cannot update a task without description', function () {
-    $user = App\Models\User::factory()->create();
-    $this->actingAs($user);
-    $task = App\Models\Task::factory()->create([
-        'user_id' => $user->id,
-    ]);
+    $this->actingAs($this->user);
 
-    $newName = fake()->word();
-    $response = $this->put(route('tasks.update', $task), [
-        'name' => $newName,
-        'state' => $task->state->value,
-        'priority' => $task->priority->value,
+    $response = $this->put(route('tasks.update', $this->task), [
+        'name' => 'Update test',
+        'state' => $this->task->state->value,
+        'priority' => $this->task->priority->value,
     ]);
 
     $response->assertSessionHasErrors(['description']);
     $this->assertDatabaseMissing('tasks', [
-        'id' => $task->id,
-        'name' => $newName,
+        'id' => $this->task->id,
+        'name' => 'Update test',
     ]);
 });
 
 test('a user cannot update a task without state', function () {
-    $user = App\Models\User::factory()->create();
-    $this->actingAs($user);
-    $task = App\Models\Task::factory()->create([
-        'user_id' => $user->id,
-    ]);
+    $this->actingAs($this->user);
 
-    $newName = fake()->word();
-    $response = $this->put(route('tasks.update', $task), [
-        'name' => $newName,
-        'description' => $task->description,
-        'priority' => $task->priority->value,
+    $response = $this->put(route('tasks.update', $this->task), [
+        'name' => 'Update test',
+        'description' => $this->task->description,
+        'priority' => $this->task->priority->value,
     ]);
 
     $response->assertSessionHasErrors(['state']);
     $this->assertDatabaseMissing('tasks', [
-        'id' => $task->id,
-        'name' => $newName,
+        'id' => $this->task->id,
+        'name' => 'Update test',
     ]);
 });
 
 test('a user cannot update a task without priority', function () {
-    $user = App\Models\User::factory()->create();
-    $this->actingAs($user);
-    $task = App\Models\Task::factory()->create([
-        'user_id' => $user->id,
-    ]);
+    $this->actingAs($this->user);
 
-    $newName = fake()->word();
-    $response = $this->put(route('tasks.update', $task), [
-        'name' => $newName,
-        'description' => $task->description,
-        'state' => $task->state->value,
+    $response = $this->put(route('tasks.update', $this->task), [
+        'name' => 'Update test',
+        'description' => $this->task->description,
+        'state' => $this->task->state->value,
     ]);
 
     $response->assertSessionHasErrors(['priority']);
     $this->assertDatabaseMissing('tasks', [
-        'id' => $task->id,
-        'name' => $newName,
+        'id' => $this->task->id,
+        'name' => 'Update test',
     ]);
 });
 
 test('a user cannot update a task with invalid state', function () {
-    $user = App\Models\User::factory()->create();
-    $this->actingAs($user);
-    $task = App\Models\Task::factory()->create([
-        'user_id' => $user->id,
-    ]);
+    $this->actingAs($this->user);
 
-    $newName = fake()->word();
-    $response = $this->put(route('tasks.update', $task), [
-        'name' => $newName,
-        'description' => $task->description,
+    $response = $this->put(route('tasks.update', $this->task), [
+        'name' => 'Update test',
+        'description' => $this->task->description,
         'state' => 'invalid state',
-        'priority' => $task->priority->value,
+        'priority' => $this->task->priority->value,
     ]);
 
     $response->assertSessionHasErrors(['state']);
     $this->assertDatabaseMissing('tasks', [
-        'id' => $task->id,
-        'name' => $newName,
+        'id' => $this->task->id,
+        'name' => 'Update test',
     ]);
 });
 
 test('a user cannot update a task with invalid priority', function () {
-    $user = App\Models\User::factory()->create();
-    $this->actingAs($user);
-    $task = App\Models\Task::factory()->create([
-        'user_id' => $user->id,
-    ]);
+    $this->actingAs($this->user);
 
-    $newName = fake()->word();
-    $response = $this->put(route('tasks.update', $task), [
-        'name' => $newName,
-        'description' => $task->description,
-        'state' => $task->state->value,
+    $response = $this->put(route('tasks.update', $this->task), [
+        'name' => 'Update test',
+        'description' => $this->task->description,
+        'state' => $this->task->state->value,
         'priority' => 'invalid priority',
     ]);
 
     $response->assertSessionHasErrors(['priority']);
     $this->assertDatabaseMissing('tasks', [
-        'id' => $task->id,
-        'name' => $newName,
+        'id' => $this->task->id,
+        'name' => 'Update test',
     ]);
 });

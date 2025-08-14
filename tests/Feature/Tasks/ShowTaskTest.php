@@ -1,43 +1,35 @@
 <?php
 
-test('a guest cannot see a task', function () {
-    $user = App\Models\User::factory()->create();
-    $task = App\Models\Task::factory()->create([
-        'user_id' => $user->id,
-    ]);
+beforeEach(function () {
+    $this->user = App\Models\User::factory()->create();
+    $this->task = App\Models\Task::factory()->for($this->user)->create();
+});
 
-    $response = $this->get(route('tasks.show', $task));
+test('a guest cannot see a task', function () {
+    $response = $this->get(route('tasks.show', $this->task));
 
     $response->assertRedirect('/login');
 });
 
 test('a user can see a task', function () {
-    $user = App\Models\User::factory()->create();
-    $this->actingAs($user);
-    $task = App\Models\Task::factory()->create([
-        'user_id' => $user->id,
-    ]);
+    $this->actingAs($this->user);
 
-    $response = $this->get(route('tasks.show', $task));
+    $response = $this->get(route('tasks.show', $this->task));
 
-    $response->assertStatus(200);
+    $response->assertOk();
 });
 
 test('a user gets the correct data when seeing a task', function () {
-    $user = App\Models\User::factory()->create();
-    $this->actingAs($user);
-    $task = App\Models\Task::factory()->create([
-        'user_id' => $user->id,
-    ]);
+    $this->actingAs($this->user);
 
-    $response = $this->get(route('tasks.show', $task));
+    $response = $this->get(route('tasks.show', $this->task));
 
-    $response->assertStatus(200);
-    $response->assertViewHas('task', function($viewTask) use ($task) {
-        return $viewTask->id == $task->id;
+    $response->assertOk();
+    $response->assertViewHas('task', function($viewTask) {
+        return $viewTask->id == $this->task->id;
     });
-    $response->assertSeeText($task->name);
-    $response->assertSeeText($task->description);
-    $response->assertSeeText($task->state->label());
-    $response->assertSeeText($task->priority->label());
+    $response->assertSeeText($this->task->name);
+    $response->assertSeeText($this->task->description);
+    $response->assertSeeText($this->task->state->label());
+    $response->assertSeeText($this->task->priority->label());
 });
