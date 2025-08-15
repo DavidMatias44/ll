@@ -57,6 +57,10 @@ select {
     padding: 10px 5px;
 }
 
+input[type="file"]::file-selector-button {
+    border-radius: 15px;
+}
+
 textarea {
     min-height: 4rem;
     max-height: 8rem;

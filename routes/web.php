@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\TaskImportController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -24,6 +25,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('edit/{task}', [TaskController::class, 'edit'])->name('tasks.edit');
         Route::put('update/{task}', [TaskController::class, 'update'])->name('tasks.update');
         Route::delete('delete/{task}', [TaskController::class, 'destroy'])->name('tasks.delete');
+
+        Route::get('import-form', [TaskImportController::class, 'showImportForm'])->name('tasks.import.form');
+        Route::post('import-csv', [TaskImportController::class, 'importCSV'])->name('tasks.import.csv');
 
         Route::get('/{task}', [TaskController::class, 'show'])->name('tasks.show');
     });
