@@ -2,7 +2,7 @@
 
 @section('main')
     @if ($errors->any())
-        <ul>
+        <ul id="error-list">
             @foreach ($errors->all() as $error)
                 <li class="error">{{ $error }}</li>
             @endforeach 
@@ -20,4 +20,14 @@
         <button class="option-button" type="button" onclick="location.href='{{ route('tasks.create') }}'">Add a new task.</button>
         <button class="option-button" type="button" onclick="location.href='{{ route('tasks.import.form') }}'">Add task from CSV file.</button>
     </section>
+
+    <script>
+        setTimeout(() => {
+            hideErrorList()
+        }, 5000);
+
+        function hideErrorList() {
+            document.getElementById('error-list').style.display = 'none';
+        }
+    </script>
 @endsection
