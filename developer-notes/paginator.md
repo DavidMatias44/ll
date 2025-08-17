@@ -1,6 +1,20 @@
-# Laravel Paginator.
+# Laravel Pagination.
 
-## What I implemented.
+Laravel built in feature.
+
+**Benefits**:
+- Display large amount of data using manageable chunks.
+- Reduce load times.
+- Improve user experience.
+
+To start using pagination just use the Eloquent ORM method: `paginate()`. Example:
+```php
+$tasks = Task::query()
+    ->whereUserId($userId)
+    ->paginate(5);
+```
+
+## Implementation.
 
 I created a **custom-paginator view** styled with vanilla CSS.
 So, I have to:
@@ -13,8 +27,18 @@ this command copy the pagination templates from `vendor/laravel/framework` direc
 
 - Delete all Blade files except for `default.blade.php`.
 
-- Set the **Default Paginator View**, by adding:
+- Set the **Default Paginator View**, by adding `Paginator::defaultView()` in `AppServiceProvider`'s `boot()` method:
 ```php
-Paginator::defaultView('vendor.pagination.default');
+public function boot(): void
+{
+    ...
+    Paginator::defaultView('vendor.pagination.default');
+}
 ```
-to the **AppServiceProvider**.
+
+## Usage.
+To be able to see the paginator links, add:
+```php
+{{ $tasks->links() }}
+```
+to the blade view.
