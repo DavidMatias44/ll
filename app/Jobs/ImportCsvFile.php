@@ -4,6 +4,8 @@ namespace App\Jobs;
 
 use App\Http\Requests\CreateTaskRequest;
 use App\Models\Task;
+use App\Models\User;
+use App\Notifications\CsvImportCompleted;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Support\Facades\Validator;
@@ -13,12 +15,12 @@ class ImportCsvFile implements ShouldQueue
     use Queueable;
 
     public $filePath;
-    public $userId;
+    public $user;
 
-    public function __construct(string $filePath, int $userId)
+    public function __construct(string $filePath, User $user)
     {
         $this->filePath = $filePath;
-        $this->userId = $userId;
+        $this->user = $user;
     }
 
     public function handle(): array
@@ -57,15 +59,13 @@ class ImportCsvFile implements ShouldQueue
                 continue;
             }
 
-            $csvData['user_id'] = $this->userId;
+            $csvData['user_id'] = $this->user->id;
 
             Task::create($csvData);
             $lineNumber++;
         }
         fclose($handle);
 
-        if (! empty($errors)) {
-            // event to return and notify the errors.
-        }
+        $this->user->notify(new CsvImportCompleted($errors));
     }
 }
