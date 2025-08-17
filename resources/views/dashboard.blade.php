@@ -1,18 +1,11 @@
 @extends('layouts.main')
 
 @section('main')
-    @if ($errors->any())
-        <ul id="error-list">
-            @foreach ($errors->all() as $error)
-                <li class="error">{{ $error }}</li>
-            @endforeach 
-        </ul>
-    @endif
-
-    @if (session('error'))
-        <ul>
-            <li class="error">{{ session('error') }}</li>
-        </ul>
+    @if (session('success'))
+        <div class="alert alert-success" id="success-message">
+            <p>{{ session('success') }}</p>
+            <button type="button" class="close-button" id="btn-close">&times;</button>
+        </div>
     @endif
 
     <section class="dashboard-options-container">
@@ -23,11 +16,15 @@
 
     <script>
         setTimeout(() => {
-            hideErrorList()
+            hideSuccessAlert()
         }, 5000);
 
-        function hideErrorList() {
-            document.getElementById('error-list').style.display = 'none';
+        document.getElementById('btn-close').addEventListener('click', function () {
+            hideSuccessAlert();
+        });
+
+        function hideSuccessAlert() {
+            document.getElementById('success-message').style.display = 'none';
         }
     </script>
 @endsection
