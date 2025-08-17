@@ -1,5 +1,9 @@
 @extends('layouts.main')
 
+@push('scripts')
+    <script src="{{ asset('js/hideAlert.js') }}"></script>
+@endpush
+
 @section('main')
     @if (session('success'))
         <div class="alert alert-success" id="success-message">
@@ -13,18 +17,4 @@
         <button class="option-button" type="button" onclick="location.href='{{ route('tasks.create') }}'">Add a new task.</button>
         <button class="option-button" type="button" onclick="location.href='{{ route('tasks.import.form') }}'">Add task from CSV file.</button>
     </section>
-
-    <script>
-        setTimeout(() => {
-            hideSuccessAlert()
-        }, 5000);
-
-        document.getElementById('btn-close').addEventListener('click', function () {
-            hideSuccessAlert();
-        });
-
-        function hideSuccessAlert() {
-            document.getElementById('success-message').style.display = 'none';
-        }
-    </script>
 @endsection

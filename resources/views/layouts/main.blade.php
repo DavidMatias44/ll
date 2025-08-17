@@ -8,6 +8,7 @@
 
         <link rel="stylesheet" href="{{ asset('css/main.css') }}">
         @stack('css-files')
+        @stack('scripts')
     </head>
     <body>
         <nav>

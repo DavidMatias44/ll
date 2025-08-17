@@ -5,6 +5,10 @@
     <link rel="stylesheet" href="{{ asset('css/forms.css') }}">    
 @endpush
 
+@push('scripts')
+    <script src="{{ asset('js/hideAlert.js') }}"></script>
+@endpush
+
 @section('main')
     <h2>Tasks</h2>
     
@@ -87,20 +91,6 @@
     @else
         <p>You do not have tasks registered yet. Add a new one <a href="{{ route('tasks.create') }}">here</a>.</p>
     @endif
-
-    <script>
-        setTimeout(() => {
-            hideSuccessAlert()
-        }, 5000);
-
-        document.getElementById('btn-close').addEventListener('click', function () {
-            hideSuccessAlert();
-        });
-
-        function hideSuccessAlert() {
-            document.getElementById('success-message').style.display = 'none';
-        }
-    </script>
 @endsection
 
 
