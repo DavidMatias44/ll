@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ImportTasksFromCsvRequest;
 use App\Jobs\ImportCsvFile;
-use App\Notifications\CsvImportCompleted;
 use Auth;
 use Illuminate\Support\Facades\Storage;
 
@@ -24,7 +23,7 @@ class TaskImportController extends Controller
         $fullPath = Storage::disk($disk)->path($path);
 
         ImportCsvFile::dispatch($fullPath, Auth::user());
-        
+
         return redirect()->route('dashboard')->withSuccess('Your tasks will be processed.');
     }
 }

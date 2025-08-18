@@ -15,6 +15,7 @@ class ImportCsvFile implements ShouldQueue
     use Queueable;
 
     public $filePath;
+
     public $user;
 
     public function __construct(string $filePath, User $user)
