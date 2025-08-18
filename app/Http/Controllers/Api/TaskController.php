@@ -10,6 +10,7 @@ use App\Http\Resources\TaskResource;
 use App\Models\Task;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class TaskController extends Controller
 {
@@ -26,13 +27,9 @@ class TaskController extends Controller
     public function store(CreateTaskRequest $request, User $user)
     {
         $request['user_id'] = $user->id;
-        Task::create($request->all());
+        $task = Task::create($request->all());
 
-        return response()->json([
-            'status' => 'success',
-            'data' => Task::all()->last(),
-            'code' => 201,
-        ]);
+        return response()->json($task, Response::HTTP_CREATED);
     }
 
     public function show(User $user, Task $task)
@@ -44,20 +41,13 @@ class TaskController extends Controller
     {
         $task->update($request->all());
 
-        return response()->json([
-            'status' => 'success',
-            'data' => $task,
-            'code' => 200,
-        ]);
+        return response()->json($task, Response::HTTP_OK);
     }
 
     public function destroy(User $user, Task $task)
     {
         $task->delete();
 
-        return response()->json([
-            'status' => 'success',
-            'code' => 204
-        ]);
+        return response()->json(Response::HTTP_OK);
     }
 }
