@@ -1,20 +1,17 @@
-@extends('layouts.main')
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+            {{ __('Dashboard') }}
+        </h2>
+    </x-slot>
 
-@push('scripts')
-    <script src="{{ asset('js/hideAlert.js') }}"></script>
-@endpush
-
-@section('main')
-    @if (session('success'))
-        <div class="alert alert-success" id="success-message">
-            <p>{{ session('success') }}</p>
-            <button type="button" class="close-button" id="btn-close">&times;</button>
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 text-gray-900 dark:text-gray-100">
+                    {{ __("You're logged in!") }}
+                </div>
+            </div>
         </div>
-    @endif
-
-    <section class="dashboard-options-container">
-        <button class="option-button" type="button" onclick="location.href='{{ route('tasks.index') }}'">See all your tasks.</button>
-        <button class="option-button" type="button" onclick="location.href='{{ route('tasks.create') }}'">Add a new task.</button>
-        <button class="option-button" type="button" onclick="location.href='{{ route('tasks.import.form') }}'">Add task from CSV file.</button>
-    </section>
-@endsection
+    </div>
+</x-app-layout>
