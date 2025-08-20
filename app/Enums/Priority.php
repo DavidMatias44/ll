@@ -20,9 +20,9 @@ enum Priority: int
     public function cssClass(): string
     {
         return match ($this) {
-            self::HIGH => 'high-priority',
-            self::MEDIUM => 'medium-priority',
-            self::LOW => 'low-priority',
+            self::HIGH => 'text-red-600 dark:text-red-400',
+            self::MEDIUM => 'text-orange-600 dark:text-orange-400',
+            self::LOW => 'text-yellow-600 dark:text-yellow-400',
         };
     }
 }

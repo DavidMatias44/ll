@@ -20,9 +20,9 @@ enum State: int
     public function cssClass(): string
     {
         return match ($this) {
-            self::TODO => 'to-do-state',
-            self::IN_PROGRESS => 'in-progress-state',
-            self::COMPLETED => 'completed-state',
+            self::TODO => 'text-red-600 dark:text-red-400',
+            self::IN_PROGRESS => 'text-yellow-600 dark:text-yellow-400',
+            self::COMPLETED => 'text-green-600 dark:text-green-400',
         };
     }
 }

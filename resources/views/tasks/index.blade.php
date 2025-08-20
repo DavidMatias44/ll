@@ -1,96 +1,97 @@
-@extends('layouts.main')
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+            {{ __('Tasks') }}
+        </h2>
+    </x-slot>
 
-@push('css-files')
-    <link rel="stylesheet" href="{{ asset('css/tables.css') }}">    
-    <link rel="stylesheet" href="{{ asset('css/forms.css') }}">    
-@endpush
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="flex items-center px-4 py-4 gap-8">
+                    <button type="button" onclick="location.href='{{ route('tasks.create') }}'"class="max-h-12 bg-gray-600 hover:bg-gray-700 text-gray-800 dark:text-gray-200 py-2 px-4 rounded">Create a new task</button>
+                    <button type="button" onclick="location.href='{{ route('tasks.import.form') }}'"class="max-h-12 bg-gray-600 hover:bg-gray-700 text-gray-800 dark:text-gray-200 py-2 px-4 rounded">Import tasks from csv file</button>
 
-@push('scripts')
-    <script src="{{ asset('js/hideAlert.js') }}"></script>
-@endpush
+                    <form x-data="{ filterSelected : false }" class="flex items-center gap-8">
+                        @csrf
 
-@section('main')
-    <h2>Tasks</h2>
-    
-    @if (session('success'))
-        <div class="alert alert-success" id="success-message">
-            <p>{{ session('success') }}</p>
-            <button type="button" class="close-button" id="btn-close">&times;</button>
+                        <div>
+                            <x-input-label for="priority" :value="__('Priority')" />
+                            <select @change="filterSelected = true" class="bg-gray-600 text-gray-200 focus:outline-none focus:ring-0 focus:border-none rounded" name="priority" id="filter-select-priority">
+                                <option value="" selected disabled>Choose an option</option>
+                                @foreach (App\Enums\Priority::cases() as $priority)
+                                    <option value="{{ $priority->value }}" {{ ("$priority->value" === request('priority')) ? 'selected' : '' }}>{{ $priority->label() }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div>
+                            <x-input-label for="state" :value="__('State')" />
+                            <select @change="filterSelected = true" class="bg-gray-600 text-gray-200 focus:outline-none focus:ring-0 focus:border-none rounded" name="state" id="filter-select-state">
+                                <option value="" selected disabled>Choose an option</option>
+                                @foreach (App\Enums\State::cases() as $state)
+                                    <option value="{{ $state->value }}" {{ ("$state->value" === request('state')) ? 'selected' : '' }}>{{ $state->label() }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <button x-bind:disabled="! filterSelected" class="max-h-12 w-36 bg-gray-600 hover:bg-gray-700 text-gray-800 dark:text-gray-200 py-2 px-4 rounded disabled:bg-gray-700 disabled:cursor-not-allowed">Filter</button>
+                        @if (request('priority') !== null || request('state') !== null)
+                            <button type="reset" onclick="location.href='{{ route('tasks.index') }}'" class="max-h-12 w-36 bg-gray-600 hover:bg-gray-700 text-gray-800 dark:text-gray-200 py-2 px-4 rounded disabled:bg-gray-700 disabled:cursor-not-allowed">Clear filters</button>
+                        @else
+                            <button type="reset" onclick="location.href='{{ route('tasks.index') }}'" disabled class="max-h-12 w-36 bg-gray-600 hover:bg-gray-700 text-gray-800 dark:text-gray-200 py-2 px-4 rounded disabled:bg-gray-700 disabled:cursor-not-allowed">Clear filters</button>
+                        @endif
+                    </form>
+                </div>
+            </div>
         </div>
-    @endif
+    </div>
 
-    @if (!$tasks->isEmpty())
-        <section class="options-container">
-            <button class="option-button" type="button" onclick="location.href='{{ route('tasks.create') }}'">
-                Add a new task
-            </button>
-            <form class="filter-form">
-                @csrf
-                <label for="priority">Filter by priority: </label>
-                <select class="filter-select" name="priority" id="filter-select-priority">
-                    <option value="" selected disabled>Choose an option</option>
-                    @foreach (App\Enums\Priority::cases() as $priority)
-                        <option value="{{ $priority->value }}">{{ $priority->label() }}</option>
-                    @endforeach
-                </select>
-                <label for="state">Filter by state: </label>
-                <select class="filter-select" name="state" id="filter-select-state">
-                    <option value="" selected disabled>Choose an option</option>
-                    @foreach (App\Enums\State::cases() as $state)
-                        <option value="{{ $state->value }}">{{ $state->label() }}</option>
-                    @endforeach
-                </select>
-                <button class="option-button">Filter</button>
-            </form>
-        </section>
-
-        <div class="table-container">
-            <table>
-                <thead>
+    @if (! $tasks->isEmpty())
+        <div class="w-3/4 mx-auto overflow-x-auto sm:rounded-lg text-lg">
+            <table class="w-full text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                <thead class="text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
-                        <th colspan="5">Tasks</th>
+                        <th scope="col" class="px-6 py-3">Name</th>
+                        <th scope="col" class="px-6 py-3">Description</th>
+                        <th scope="col" class="px-6 py-3">Priority</th>
+                        <th scope="col" class="px-6 py-3">State</th>
+                        <th scope="col" class="px-6 py-3">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <th>Name</th>
-                        <th>Description</th>
-                        <th>Priority</th>
-                        <th>State</th>
-                        <th>Actions</th>
-                    </tr>
                     @foreach ($tasks as $task)
-                        <tr>
-                            <td>{{ $task->name }}</td>
-                            <td>{{ $task->description }}</td>
-                            <td class="{{ $task->priority->cssClass() }}">
-                                <p>{{ $task->priority->label() }}</p>
+                        <tr class="bg-gray-50 dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200">
+                            <td class="px-6 py-4" scope='row'>{{ $task->name }}</td>
+                            <td class="px-6 py-4">{{ $task->description }}</td>
+                            <td class="px-6 py-4">
+                                <p class="{{ $task->priority->cssClass() }}">{{ $task->priority->label() }}</p>
                             </td>
-                            <td class="{{ $task->state->cssClass() }}">
-                                <p>{{ $task->state->label() }}</p>
+                            <td class="px-6 py-4">
+                                <p class="{{ $task->state->cssClass() }}">{{ $task->state->label() }}</p>
                             </td>
-                            <td>
-                                <a href="{{ route('tasks.show', $task) }}">Details</a>
-                                <a href="{{ route('tasks.edit', $task) }}">Edit</a>
+                            <td class="px-6 py-4 flex gap-4">
+                                <a class="text-blue-600 dark:text-blue-800 hover:underline" href="{{ route('tasks.show', $task) }}">Details</a>
+                                <a class="text-blue-600 dark:text-blue-800 hover:underline" href="{{ route('tasks.edit', $task) }}">Edit</a>
                                 <form method="POST" action="{{ route('tasks.delete', $task) }}" id="delete-form-{{ $task->id }}">
                                     @csrf
                                     @method('DELETE')
-                                    <button class="delete-button" onclick="return confirm('Are you sure?')" type="submit">Delete</button>
+                                    <button class="text-red-600 dark:text-red-7 00" onclick="return confirm('Are you sure?')" type="submit">Delete</button>
                                 </form>
                             </td>
                         </tr>
                     @endforeach
                 </tbody>
             </table>
-
-            <br>
-            <div>
-                {{ $tasks->appends(request()->query())->links()  }}
-            </div>
         </div>
     @else
-        <p>You do not have tasks registered yet. Add a new one <a href="{{ route('tasks.create') }}">here</a>.</p>
+        <div class="py-12">
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                    <div class="p-6 text-gray-900 dark:text-gray-100">
+                        {{ __("There is no tasks registered. Add a new one") }} <a class="underline" href="{{ route('tasks.create') }}">{{ __('here') }}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     @endif
-@endsection
-
-
+</x-app-layout>
