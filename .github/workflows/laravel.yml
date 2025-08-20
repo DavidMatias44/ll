@@ -28,7 +28,14 @@ jobs:
       run: |
         mkdir -p database
         touch database/database.sqlite
-    - name: Execute tests (Unit and Feature tests) via PHPUnit/Pest
+    - uses: actions/setup-node@v3
+      with:
+        node-version: 20
+    - name: Install Node dependencies
+      run: npm ci
+    - name: Build frontend
+      run: npm run build
+    - name: Execute tests (Unit and Feature tests) via Pest
       env:
         DB_CONNECTION: sqlite
         DB_DATABASE: database/database.sqlite
