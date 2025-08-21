@@ -72,11 +72,15 @@
                             <td class="px-6 py-4 flex gap-4">
                                 <a class="text-blue-600 dark:text-blue-800 hover:underline" href="{{ route('tasks.show', $task) }}">Details</a>
                                 <a class="text-blue-600 dark:text-blue-800 hover:underline" href="{{ route('tasks.edit', $task) }}">Edit</a>
-                                <form method="POST" action="{{ route('tasks.delete', $task) }}" id="delete-form-{{ $task->id }}">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button class="text-red-600 dark:text-red-7 00" onclick="return confirm('Are you sure?')" type="submit">Delete</button>
-                                </form>
+
+                                <button 
+                                    class="text-red-600 dark:text-red-700" 
+                                    type="button" 
+                                    @click="$dispatch('open-modal', 'delete-modal')" 
+                                    onclick="setupActionFromDeletionForm({{ $task->id }})" 
+                                    x-data="">
+                                    Delete
+                                </button>
                             </td>
                         </tr>
                     @endforeach
@@ -97,3 +101,23 @@
         </div>
     @endif
 </x-app-layout>
+
+<div >
+    <x-modal name="delete-modal">
+        <p>Are you sure?</p>
+        <form id="deletion-form" method="POST">
+            @csrf
+            @method('DELETE')
+
+            <x-secondary-button @click="$dispatch('close-modal', 'delete-modal')">Cancel</x-secondary-button>
+            <x-primary-button>Confirm</x-primary-button>
+        </form>
+    </x-modal>
+</div>
+
+<script>
+    function setupActionFromDeletionForm (taskId) {
+        let form = document.getElementById('deletion-form');
+        form.action = `/tasks/delete/${taskId}`;
+    }
+</script>
