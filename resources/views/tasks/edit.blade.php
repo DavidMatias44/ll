@@ -1,46 +1,76 @@
-@extends('layouts.main')
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+            {{ __('Update a Task') }}
+        </h2>
+    </x-slot>
 
-@push('css-files')
-    <link rel="stylesheet" href="{{ asset('css/forms.css')  }}">
-@endpush
-
-@section('main')
-    <h2>Edit task.</h2>
-    @if ($errors->any())
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li class="form-validation-error">{{ $error }}</li>
-            @endforeach 
-        </ul>
-    @endif
-    <div class="form-container">
-        <form method="POST" action="{{ route('tasks.update', $task) }}" class="form">
-            @csrf
-            @method('PUT')
-            <label for="name">Name: </label>
-            <input type="text" name="name" id="name" value="{{ $task->name }}">
-            <label for="description">Description: </label>
-            <textarea name="description" id="description">{{ $task->description }}</textarea>
-            <label for="priority">Priority: </label>
-            <select name="priority" id="priority">
-                @foreach (App\Enums\Priority::cases() as $priority)
-                    <option value="{{ $priority->value }}" {{ $task->priority == $priority ? 'selected' : '' }}>
-                        {{ $priority->label() }}
-                    </option>
-                @endforeach
-            </select>
-            <label for="state">State: </label>
-            <select name="state" id="state">
-                @foreach (App\Enums\State::cases() as $state)
-                    <option value="{{ $state->value }}" {{ $task->state == $state ? 'selected' : '' }}>
-                        {{ $state->label() }}
-                    </option>
-                @endforeach
-            </select>
-            <button class="accept-button" type="submit">Edit task</button>
-            <button class="cancel-button" type="button" onclick="location.href='{{ route('tasks.index') }}'">
-                Cancel
-            </button>
-        </form>
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="flex items-center px-4 py-4 gap-8">
+                    <button type="button" onclick="location.href='{{ route('tasks.index') }}'"class="max-h-12 bg-gray-600 hover:bg-gray-700 text-gray-800 dark:text-gray-200 py-2 px-4 rounded">See all tasks</button>
+                    <button type="button" onclick="location.href='{{ route('tasks.import.form') }}'"class="max-h-12 bg-gray-600 hover:bg-gray-700 text-gray-800 dark:text-gray-200 py-2 px-4 rounded">Import tasks from csv file</button>
+                </div>
+            </div>
+        </div>
     </div>
-@endsection
+
+    <div>
+        <div class="max-w-lg mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="flex items-center px-4 py-4 gap-8">
+                    <form method="POST" action="{{ route('tasks.update', $task) }}" class="w-3/4 mx-auto">
+                        @csrf
+                        @method("PUT")
+
+                        <div class="my-4">
+                            <x-input-label for="name" :value="__('Name')" />
+                            <x-text-input id="name" class="block mt-1 w-full"
+                                type="text"
+                                name="name" 
+                                value="{{ $task->name }}"/>
+                            <x-input-error :messages="$errors->get('name')" class="mt-2" />
+                        </div>
+
+                        <div class="my-4">
+                            <x-input-label for="description" :value="__('Description')" />
+                            <x-text-input id="description" class="block mt-1 w-full"
+                                type="text"
+                                name="description" 
+                                value="{{ $task->description }}"/>
+                            <x-input-error :messages="$errors->get('description')" class="mt-2" />
+                        </div>
+
+                        <div class="my-4">
+                            <x-input-label for="priority" :value="__('Priority')" />
+                            <select class="w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm" name="priority" id="filter-select-priority">
+                                <option value="" selected disabled>Choose an option</option>
+                                @foreach (App\Enums\Priority::cases() as $priority)
+                                    <option value="{{ $priority->value }}" {{ ($priority->value == $task->priority->value) ? 'selected' : '' }}>{{ $priority->label() }}</option>
+                                @endforeach
+                            </select>
+                            <x-input-error :messages="$errors->get('priority')" class="mt-2" />
+                        </div>
+
+                        <div class="my-4">
+                            <x-input-label for="state" :value="__('State')" />
+                            <select class="w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm" name="state" id="filter-select-state">
+                                <option value="" selected disabled>Choose an option</option>
+                                @foreach (App\Enums\State::cases() as $state)
+                                    <option value="{{ $state->value }}" {{ ($state->value == $task->state->value) ? 'selected' : '' }}>{{ $state->label() }}</option>
+                                @endforeach
+                            </select>
+                            <x-input-error :messages="$errors->get('state')" class="mt-2" />
+                        </div>
+
+                        <div class="flex items-center justify-end mt-4 gap-4">
+                            <x-secondary-button onclick="history.back()">Cancel</x-secondary-button>
+                            <x-primary-button class="my-4">Update task</x-primary-button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</x-app-layout>
