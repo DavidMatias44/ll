@@ -16,7 +16,7 @@ $tasks = Task::query()
 
 ## Implementation.
 
-I created a **custom-paginator view** styled with vanilla CSS.
+I created a **custom-paginator view** styled with Tailwind CSS.
 So, I have to:
 
 - **Publish** the paginator:

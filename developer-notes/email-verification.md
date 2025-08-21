@@ -30,8 +30,6 @@ class User extends Authenticatable implements MustVerifyEmail
 }
 ```
 
-- I modified the `verify-email` Blade view to style it with vanilla CSS.
-
 - Then, I added the `verified` middleware to protect certain views or resources:
 ```php
 Route::middleware(['auth', 'verified'])->group(function () {
