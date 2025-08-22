@@ -24,7 +24,7 @@ class ImportCsvFile implements ShouldQueue
         $this->user = $user;
     }
 
-    public function handle(): array
+    public function handle()
     {
         $handle = fopen($this->filePath, 'r');
         $errors = [];
