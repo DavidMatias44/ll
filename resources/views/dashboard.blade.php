@@ -5,7 +5,7 @@
         </h2>
     </x-slot>
 
-    <div class="py-12">
+    <div class="pt-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="flex px-4 py-4 gap-8">
@@ -15,4 +15,14 @@
             </div>
         </div>
     </div>
+
+    @if (session('status') == 'tasks-will-be-processed')
+        <div class="py-4">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="flex items-center mb-4 font-medium text-md text-green-600 dark:text-green-400">
+                {{ __('Your tasks will be processed. An email will be send to you with more information.') }}
+            </div>
+        </div>
+        </div>
+    @endif
 </x-app-layout>

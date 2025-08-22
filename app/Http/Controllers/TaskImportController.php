@@ -24,6 +24,6 @@ class TaskImportController extends Controller
 
         ImportCsvFile::dispatch($fullPath, Auth::user());
 
-        return redirect()->route('dashboard')->withSuccess('Your tasks will be processed.');
+        return redirect()->route('dashboard')->with('status', 'tasks-will-be-processed');
     }
 }
