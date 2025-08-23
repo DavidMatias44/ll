@@ -127,6 +127,12 @@ return [
             'path' => storage_path('logs/laravel.log'),
         ],
 
+        'taskCreation' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/TaskCreation.log'),
+            'level' => 'info',
+        ],
+
     ],
 
 ];

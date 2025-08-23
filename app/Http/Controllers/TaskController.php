@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\TaskCreated;
 use App\Http\Requests\CreateTaskRequest;
 use App\Http\Requests\TaskFilterRequest;
 use App\Http\Requests\UpdateTaskRequest;
@@ -37,7 +38,9 @@ class TaskController extends Controller
         Gate::authorize('create', Task::class);
 
         $request['user_id'] = Auth::id();
-        Task::create($request->all());
+        $task = Task::create($request->all());
+
+        event(new TaskCreated($task));
 
         return redirect()->route('tasks.index')->withSuccess('Task was created successfully.');
     }
