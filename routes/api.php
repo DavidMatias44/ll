@@ -1,9 +1,6 @@
 <?php
 
 use App\Http\Controllers\Api\TaskController;
-use App\Http\Resources\UserResource;
-use App\Models\User;
-use App\Models\Task;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('/users/{user}/tasks')->group(function () {

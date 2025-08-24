@@ -9,13 +9,12 @@ use App\Http\Requests\UpdateTaskRequest;
 use App\Http\Resources\TaskResource;
 use App\Models\Task;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class TaskController extends Controller
 {
     public function index(TaskFilterRequest $request, User $user)
-    {   
+    {
         return TaskResource::collection(
             Task::query()
                 ->whereUserId($user->id)

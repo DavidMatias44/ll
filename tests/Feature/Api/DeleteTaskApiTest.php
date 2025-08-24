@@ -2,7 +2,6 @@
 
 use App\Models\Task;
 use App\Models\User;
-use Illuminate\Testing\Fluent\AssertableJson;
 
 beforeEach(function () {
     $this->user = User::factory()->create();

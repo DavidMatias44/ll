@@ -21,9 +21,8 @@ test('GET method should show task owned by certain user', function () {
     $response = $this->get("/api/users/{$this->user->id}/tasks/{$this->task->id}");
 
     $response->assertStatus(200);
-    $response->assertJson(fn (AssertableJson $json) =>
-        $json->where('data.name', $this->task->name)
-            ->where('data.user_id', $this->user->id)
-            ->etc()
+    $response->assertJson(fn (AssertableJson $json) => $json->where('data.name', $this->task->name)
+        ->where('data.user_id', $this->user->id)
+        ->etc()
     );
 });

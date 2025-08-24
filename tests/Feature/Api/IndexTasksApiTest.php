@@ -32,19 +32,18 @@ test('GET method should list all tasks and pagination links', function () {
 
     $response = $this->getJson("/api/users/{$this->user->id}/tasks");
 
-    $response->assertJson(fn (AssertableJson $json) =>
-        $json->has('links.first')
-            ->has('links.last')
-            ->has('links.prev')
-            ->has('links.next')
-            ->has('meta.current_page')
-            ->has('meta.from')
-            ->has('meta.last_page')
-            ->has('meta.links')
-            ->has('meta.path')
-            ->has('meta.per_page')
-            ->has('meta.to')
-            ->has('meta.total')
-            ->etc()
+    $response->assertJson(fn (AssertableJson $json) => $json->has('links.first')
+        ->has('links.last')
+        ->has('links.prev')
+        ->has('links.next')
+        ->has('meta.current_page')
+        ->has('meta.from')
+        ->has('meta.last_page')
+        ->has('meta.links')
+        ->has('meta.path')
+        ->has('meta.per_page')
+        ->has('meta.to')
+        ->has('meta.total')
+        ->etc()
     );
 });
