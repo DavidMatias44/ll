@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PomodoroController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TaskImportController;
@@ -30,6 +31,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('import-csv', [TaskImportController::class, 'importCSV'])->name('tasks.import.csv');
 
         Route::get('/{task}', [TaskController::class, 'show'])->name('tasks.show');
+    });
+
+    Route::prefix('pomodoro')->group(function () {
+        Route::get('/', function () {
+            return view('pomodoro');
+        })->name('pomodoro.timer');
     });
 });
 
