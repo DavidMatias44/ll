@@ -12,8 +12,8 @@ test('PUT method should update a task owned by certain user', function () {
     $newData = [
         'name' => 'Put test',
         'description' => 'Put test',
-        'state' => App\Enums\State::TODO->value,
-        'priority' => App\Enums\Priority::HIGH->value,
+        'state' => App\Enums\Tasks\State::TODO->value,
+        'priority' => App\Enums\Tasks\Priority::HIGH->value,
     ];
 
     $response = $this->putJson("/api/users/{$this->user->id}/tasks/{$this->task->id}", $newData);
@@ -28,8 +28,8 @@ test('PUT method should update a task owned by certain user', function () {
 test('PUT method should not update a task owned if there is no name', function () {
     $newData = [
         'description' => 'Put test',
-        'state' => App\Enums\State::TODO->value,
-        'priority' => App\Enums\Priority::HIGH->value,
+        'state' => App\Enums\Tasks\State::TODO->value,
+        'priority' => App\Enums\Tasks\Priority::HIGH->value,
     ];
 
     $response = $this->putJson("/api/users/{$this->user->id}/tasks/{$this->task->id}", $newData);
@@ -45,8 +45,8 @@ test('PUT method should not update a task owned if there is no name', function (
 test('PUT method should not update a task if there is no description', function () {
     $newData = [
         'name' => 'Put test',
-        'state' => App\Enums\State::TODO->value,
-        'priority' => App\Enums\Priority::HIGH->value,
+        'state' => App\Enums\Tasks\State::TODO->value,
+        'priority' => App\Enums\Tasks\Priority::HIGH->value,
     ];
 
     $response = $this->putJson("/api/users/{$this->user->id}/tasks/{$this->task->id}", $newData);
@@ -63,7 +63,7 @@ test('PUT method should not update a task if there is no state', function () {
     $newData = [
         'name' => 'Put test',
         'description' => 'Put test',
-        'priority' => App\Enums\Priority::HIGH->value,
+        'priority' => App\Enums\Tasks\Priority::HIGH->value,
     ];
 
     $response = $this->putJson("/api/users/{$this->user->id}/tasks/{$this->task->id}", $newData);
@@ -81,7 +81,7 @@ test('PUT method should not update a task owned if there is an invalid state', f
         'name' => 'Put test',
         'description' => 'Put test',
         'state' => 'invalid',
-        'priority' => App\Enums\Priority::HIGH->value,
+        'priority' => App\Enums\Tasks\Priority::HIGH->value,
     ];
 
     $response = $this->putJson("/api/users/{$this->user->id}/tasks/{$this->task->id}", $newData);
@@ -98,7 +98,7 @@ test('PUT method should not update a task if there is no priority', function () 
     $newData = [
         'name' => 'Put test',
         'description' => 'Put test',
-        'state' => App\Enums\State::TODO->value,
+        'state' => App\Enums\Tasks\State::TODO->value,
     ];
 
     $response = $this->putJson("/api/users/{$this->user->id}/tasks/{$this->task->id}", $newData);
@@ -115,7 +115,7 @@ test('PUT method should not update a task if there is an invalid priority', func
     $newData = [
         'name' => 'Put test',
         'description' => 'Put test',
-        'state' => App\Enums\State::TODO->value,
+        'state' => App\Enums\Tasks\State::TODO->value,
         'priority' => 'invalid',
     ];
 

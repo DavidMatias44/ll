@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use App\Enums\Priority;
-use App\Enums\State;
+use App\Enums\Tasks\Priority;
+use App\Enums\Tasks\State;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;

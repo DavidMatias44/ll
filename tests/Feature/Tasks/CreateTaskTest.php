@@ -8,8 +8,8 @@ test('a guest cannot create a task', function () {
     $response = $this->post('/tasks/create', [
         'name' => 'Test Task',
         'description' => 'Test Task description',
-        'state' => App\Enums\State::TODO->value,
-        'priority' => App\Enums\Priority::HIGH->value,
+        'state' => App\Enums\Tasks\State::TODO->value,
+        'priority' => App\Enums\Tasks\Priority::HIGH->value,
     ]);
 
     $response->assertRedirect('/login');
@@ -24,8 +24,8 @@ test('a user can create a task', function () {
     $response = $this->post('/tasks/create', [
         'name' => 'Test Task',
         'description' => 'Test Task description',
-        'state' => App\Enums\State::TODO->value,
-        'priority' => App\Enums\Priority::HIGH->value,
+        'state' => App\Enums\Tasks\State::TODO->value,
+        'priority' => App\Enums\Tasks\Priority::HIGH->value,
     ]);
 
     $response->assertRedirect('/tasks');
@@ -40,8 +40,8 @@ test('a user cannot create a task without name', function () {
 
     $response = $this->post('/tasks/create', [
         'description' => 'Test Task description',
-        'state' => App\Enums\State::TODO->value,
-        'priority' => App\Enums\Priority::HIGH->value,
+        'state' => App\Enums\Tasks\State::TODO->value,
+        'priority' => App\Enums\Tasks\Priority::HIGH->value,
     ]);
 
     $response->assertSessionHasErrors(['name']);
@@ -55,8 +55,8 @@ test('a user cannot create a task without description', function () {
 
     $response = $this->post('/tasks/create', [
         'name' => 'Test Task',
-        'state' => App\Enums\State::TODO->value,
-        'priority' => App\Enums\Priority::HIGH->value,
+        'state' => App\Enums\Tasks\State::TODO->value,
+        'priority' => App\Enums\Tasks\Priority::HIGH->value,
     ]);
 
     $response->assertSessionHasErrors(['description']);
@@ -71,7 +71,7 @@ test('a user cannot create a task without state', function () {
     $response = $this->post('/tasks/create', [
         'name' => 'Test Task',
         'description' => 'Test Task description',
-        'priority' => App\Enums\Priority::HIGH->value,
+        'priority' => App\Enums\Tasks\Priority::HIGH->value,
     ]);
 
     $response->assertSessionHasErrors(['state']);
@@ -86,7 +86,7 @@ test('a user cannot create a task without priority', function () {
     $response = $this->post('/tasks/create', [
         'name' => 'Test Task',
         'description' => 'Test Task description',
-        'state' => App\Enums\State::TODO->value,
+        'state' => App\Enums\Tasks\State::TODO->value,
     ]);
 
     $response->assertSessionHasErrors(['priority']);
@@ -102,7 +102,7 @@ test('a user cannot create a task with invalid state', function () {
         'name' => 'Test Task',
         'description' => 'Test Task description',
         'state' => 'invalid state',
-        'priority' => App\Enums\Priority::HIGH->value,
+        'priority' => App\Enums\Tasks\Priority::HIGH->value,
     ]);
 
     $response->assertSessionHasErrors(['state']);
@@ -117,7 +117,7 @@ test('a user cannot create a task with invalid priority', function () {
     $response = $this->post('/tasks/create', [
         'name' => 'Test Task',
         'description' => 'Test Task description',
-        'state' => App\Enums\State::TODO->value,
+        'state' => App\Enums\Tasks\State::TODO->value,
         'priority' => 'invalid priority',
     ]);
 

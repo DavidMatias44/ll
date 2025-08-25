@@ -10,8 +10,8 @@ test('POST method should create a new task owned by certain user', function () {
     $data = [
         'name' => 'Post test',
         'description' => 'Post test',
-        'state' => App\Enums\State::TODO->value,
-        'priority' => App\Enums\Priority::HIGH->value,
+        'state' => App\Enums\Tasks\State::TODO->value,
+        'priority' => App\Enums\Tasks\Priority::HIGH->value,
     ];
 
     $response = $this->postJson("/api/users/{$this->user->id}/tasks", $data);
@@ -23,8 +23,8 @@ test('POST method should create a new task owned by certain user', function () {
 test('POST method should not create a new task if there is no name', function () {
     $data = [
         'description' => 'Post test',
-        'state' => App\Enums\State::TODO->value,
-        'priority' => App\Enums\Priority::HIGH->value,
+        'state' => App\Enums\Tasks\State::TODO->value,
+        'priority' => App\Enums\Tasks\Priority::HIGH->value,
     ];
 
     $response = $this->postJson("/api/users/{$this->user->id}/tasks", $data);
@@ -40,8 +40,8 @@ test('POST method should not create a new task if there is no name', function ()
 test('POST method should not create a new task if there is no description', function () {
     $data = [
         'name' => 'Post test',
-        'state' => App\Enums\State::TODO->value,
-        'priority' => App\Enums\Priority::HIGH->value,
+        'state' => App\Enums\Tasks\State::TODO->value,
+        'priority' => App\Enums\Tasks\Priority::HIGH->value,
     ];
 
     $response = $this->postJson("/api/users/{$this->user->id}/tasks", $data);
@@ -58,7 +58,7 @@ test('POST method should not create a new task if there is no state', function (
     $data = [
         'name' => 'Post test',
         'description' => 'Post test',
-        'priority' => App\Enums\Priority::HIGH->value,
+        'priority' => App\Enums\Tasks\Priority::HIGH->value,
     ];
 
     $response = $this->postJson("/api/users/{$this->user->id}/tasks", $data);
@@ -76,7 +76,7 @@ test('POST method should not create a new task if there is an invalid state', fu
         'name' => 'Post test',
         'description' => 'Post test',
         'state' => 'invalid',
-        'priority' => App\Enums\Priority::HIGH->value,
+        'priority' => App\Enums\Tasks\Priority::HIGH->value,
     ];
 
     $response = $this->postJson("/api/users/{$this->user->id}/tasks", $data);
@@ -93,7 +93,7 @@ test('POST method should not create a new task if there is no priority', functio
     $data = [
         'name' => 'Post test',
         'description' => 'Post test',
-        'state' => App\Enums\State::TODO->value,
+        'state' => App\Enums\Tasks\State::TODO->value,
     ];
 
     $response = $this->postJson("/api/users/{$this->user->id}/tasks", $data);
@@ -110,7 +110,7 @@ test('POST method should not create a new task if there is an invalid priority',
     $data = [
         'name' => 'Post test',
         'description' => 'Post test',
-        'state' => App\Enums\State::TODO->value,
+        'state' => App\Enums\Tasks\State::TODO->value,
         'priority' => 'invalid',
     ];
 

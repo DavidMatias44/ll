@@ -64,7 +64,7 @@ I used this `request()` helper to keep the selected values chosen by the user on
 ```php
 <select ...>
     ...
-    @foreach (App\Enums\State::cases() as $state)
+    @foreach (App\Enums\Tasks\State::cases() as $state)
         <option value="{{ $state->value }}" {{ ("$state->value" === request('state')) ? 'selected' : '' }}>{{ $state->label() }}</option>
     @endforeach
 </select>

@@ -43,7 +43,7 @@
                             <x-input-label for="priority" :value="__('Priority')" />
                             <select class="w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm" name="priority" id="filter-select-priority">
                                 <option value="" selected disabled>Choose an option</option>
-                                @foreach (App\Enums\Priority::cases() as $priority)
+                                @foreach (App\Enums\Tasks\Priority::cases() as $priority)
                                     <option value="{{ $priority->value }}">{{ $priority->label() }}</option>
                                 @endforeach
                             </select>
@@ -54,7 +54,7 @@
                             <x-input-label for="state" :value="__('State')" />
                             <select class="w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm" name="state" id="filter-select-state">
                                 @php
-                                    $state = App\Enums\State::TODO;
+                                    $state = App\Enums\Tasks\State::TODO;
                                 @endphp
                                 <option value="{{ $state->value }}">{{ $state->label() }}</option>
                             </select>

@@ -19,7 +19,7 @@
                             <x-input-label for="priority" :value="__('Priority')" />
                             <select @change="filterSelected = true" class="bg-gray-600 text-gray-200 focus:outline-none focus:ring-0 focus:border-none rounded" name="priority" id="filter-select-priority">
                                 <option value="" selected disabled>Choose an option</option>
-                                @foreach (App\Enums\Priority::cases() as $priority)
+                                @foreach (App\Enums\Tasks\Priority::cases() as $priority)
                                     <option value="{{ $priority->value }}" {{ ("$priority->value" === request('priority')) ? 'selected' : '' }}>{{ $priority->label() }}</option>
                                 @endforeach
                             </select>
@@ -28,7 +28,7 @@
                             <x-input-label for="state" :value="__('State')" />
                             <select @change="filterSelected = true" class="bg-gray-600 text-gray-200 focus:outline-none focus:ring-0 focus:border-none rounded" name="state" id="filter-select-state">
                                 <option value="" selected disabled>Choose an option</option>
-                                @foreach (App\Enums\State::cases() as $state)
+                                @foreach (App\Enums\Tasks\State::cases() as $state)
                                     <option value="{{ $state->value }}" {{ ("$state->value" === request('state')) ? 'selected' : '' }}>{{ $state->label() }}</option>
                                 @endforeach
                             </select>

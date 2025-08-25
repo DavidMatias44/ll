@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
-use App\Enums\Priority;
-use App\Enums\State;
+use App\Enums\Tasks\Priority;
+use App\Enums\Tasks\State;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class TaskFactory extends Factory
