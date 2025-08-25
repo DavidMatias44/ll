@@ -1,5 +1,9 @@
 <div class="w-3/4 flex flex-col items-center mx-auto my-12 py-6 text-gray-800 dark:text-gray-200 bg-gray-100 dark:bg-gray-800 rounded">
 
+    <div class="text-gray-800 dark:text-gray-200 bg-gray-100 dark:bg-gray-800 mb-4 rounded">
+        <p class="text-2xl inline">{{ $pomodoroState }}</p>
+    </div>
+
     <div class="flex flex-row justify-start w-full mb-6">
         <div class="w-[12.5%]"></div>
         <p wire:poll.1s='tick' class="w-3/4 h-full dark:bg-gray-700 text-9xl text-center py-6 rounded">

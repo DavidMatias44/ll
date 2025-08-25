@@ -3,10 +3,12 @@
 namespace App\Livewire;
 
 use Livewire\Component;
+use App\Enums\Pomodoro\State;
 
 class PomodoroTimer extends Component
 {
-    public $totalTimeInSeconds = 25 * 60;
+    public $pomodoroState = State::POMODORO;
+    public $totalTimeInSeconds;
 
     public $currentPomodoro = 1;
     public $timerIsRunning = false;
@@ -17,7 +19,7 @@ class PomodoroTimer extends Component
         if (session('pomodoro.currentPomodoro') === null && session('pomodoro.timerIsRunning') === null) {
             session()->put('pomodoro.currentPomodoro', $this->currentPomodoro);
             session()->put('pomodoro.timerIsRunning', $this->timerIsRunning);
-            $this->timeLeftInSeconds = $this->totalTimeInSeconds;
+            $this->timeLeftInSeconds = $this->pomodoroState->getTotalTime();
             return;
         }
 
@@ -61,7 +63,18 @@ class PomodoroTimer extends Component
 
     public function skipToNextPomodoro()
     {
-        $this->currentPomodoro++;
+        if ($this->pomodoroState === State::POMODORO) {
+            if ($this->currentPomodoro % 4 == 0) {
+                $this->pomodoroState = State::LONG_BREAK;
+            } else {
+                $this->pomodoroState = State::SHORT_BREAK;
+            }
+        } else {
+            $this->pomodoroState = State::POMODORO;
+            $this->currentPomodoro++;
+        }
+        $this->totalTimeInSeconds = $this->pomodoroState->getTotalTime();
+
         session()->put('pomodoro.currentPomodoro', $this->currentPomodoro);
         $this->timerStop();
         $this->timeLeftInSeconds = $this->totalTimeInSeconds;
