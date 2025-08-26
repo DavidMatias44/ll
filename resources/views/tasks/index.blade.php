@@ -109,9 +109,9 @@
     @endif
 </x-app-layout>
 
-<div >
-    <x-modal name="delete-modal">
-        <p>Are you sure?</p>
+<x-modal name="delete-modal" maxWidth="sm">
+    <div class="flex flex-col items-center my-6">
+        <p class="text-2xl text-gray-200 text-center mb-6">Are you sure?</p>
         <form id="deletion-form" method="POST">
             @csrf
             @method('DELETE')
@@ -119,8 +119,8 @@
             <x-secondary-button @click="$dispatch('close-modal', 'delete-modal')">Cancel</x-secondary-button>
             <x-primary-button>Confirm</x-primary-button>
         </form>
-    </x-modal>
-</div>
+    </div>
+</x-modal>
 
 <script>
     function setupActionFromDeletionForm (taskId) {
