@@ -19,7 +19,7 @@ class Task extends Model
         'description',
         'state',
         'priority',
-        'expiration',
+        'due_date',
         'user_id',
     ];
 

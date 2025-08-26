@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('description');
             $table->tinyInteger('state');
             $table->tinyInteger('priority');
-            $table->date('expiration')->nullable();
+            $table->date('due_date')->nullable();
             $table->unsignedBigInteger('user_id');
             $table->timestamps();
 
