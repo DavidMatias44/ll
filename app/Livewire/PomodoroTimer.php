@@ -7,19 +7,21 @@ use App\Enums\Pomodoro\State;
 
 class PomodoroTimer extends Component
 {
-    public $pomodoroState = State::POMODORO;
-    public $totalTimeInSeconds;
-
-    public $currentPomodoro = 1;
-    public $timerIsRunning = false;
-    public $timeLeftInSeconds;
+    public State $pomodoroState = State::POMODORO;
+    public int $currentPomodoro = 1;
+    public bool $timerIsRunning = false;
+    public int $timeLeftInSeconds;
 
     public function mount()
     {
-        if (session('pomodoro.currentPomodoro') === null && session('pomodoro.timerIsRunning') === null) {
-            session()->put('pomodoro.currentPomodoro', $this->currentPomodoro);
-            session()->put('pomodoro.timerIsRunning', $this->timerIsRunning);
+        if (session('pomodoro.currentPomodoro') === null) {
+            session()->put([
+                'pomodoro.currentPomodoro' => $this->currentPomodoro,
+                'pomodoro.timerIsRunning' => $this->timerIsRunning,
+                'pomodoro.timeLeftInSeconds' => $this->pomodoroState->getTotalTime(),
+            ]);
             $this->timeLeftInSeconds = $this->pomodoroState->getTotalTime();
+
             return;
         }
 
@@ -30,22 +32,26 @@ class PomodoroTimer extends Component
         if ($this->timerIsRunning) {
             $startedAt = session()->get('pomodoro.startedAt');
             $timeElapsed = -now()->diffInSeconds($startedAt);
-            $this->timeLeftInSeconds = max(0, floor($this->totalTimeInSeconds - $timeElapsed));
+            $this->timeLeftInSeconds = max(0, floor($this->pomodoroState->getTotalTime() - $timeElapsed));
         }
     }
 
     public function timerStart()
     {
         $this->timerIsRunning = true;
-        session()->put('pomodoro.startedAt', now());
-        session()->put('pomodoro.timerIsRunning', $this->timerIsRunning);
+        session()->put([
+            'pomodoro.startedAt'=> now(),
+            'pomodoro.timerIsRunning' => $this->timerIsRunning,
+        ]);
     }
 
     public function timerStop()
     {
         $this->timerIsRunning = false;
-        session()->put('pomodoro.timeLeftInSeconds', $this->timeLeftInSeconds);
-        session()->put('pomodoro.timerIsRunning', $this->timerIsRunning);
+        session()->put([
+            'pomodoro.timeLeftInSeconds' => $this->timeLeftInSeconds,
+            'pomodoro.timerIsRunning' => $this->timerIsRunning,
+        ]);
     }
 
     public function tick() 
@@ -63,6 +69,8 @@ class PomodoroTimer extends Component
 
     public function skipToNextPomodoro()
     {
+        $this->timerStop();
+
         if ($this->pomodoroState === State::POMODORO) {
             if ($this->currentPomodoro % 4 == 0) {
                 $this->pomodoroState = State::LONG_BREAK;
@@ -73,12 +81,10 @@ class PomodoroTimer extends Component
             $this->pomodoroState = State::POMODORO;
             $this->currentPomodoro++;
         }
-        $this->totalTimeInSeconds = $this->pomodoroState->getTotalTime();
 
         session()->put('pomodoro.currentPomodoro', $this->currentPomodoro);
-        $this->timerStop();
-        $this->timeLeftInSeconds = $this->totalTimeInSeconds;
-        session()->put('pomodoro.timeLeftInSeconds', $this->totalTimeInSeconds);
+        session()->put('pomodoro.timeLeftInSeconds', $this->pomodoroState->getTotalTime());
+        $this->timeLeftInSeconds = $this->pomodoroState->getTotalTime();
     }
 
     public function render()
