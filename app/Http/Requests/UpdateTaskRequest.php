@@ -23,6 +23,7 @@ class UpdateTaskRequest extends FormRequest
                 Rule::unique('tasks')->ignore($this->task->id),
             ],
             'description' => 'required|max:255',
+            'due_date' => 'date_format:Y-m-d|after_or_equal:today',
             'state' => ['required', Rule::enum(State::class)],
             'priority' => ['required', Rule::enum(Priority::class)],
         ];

@@ -30,6 +30,16 @@
                     <td class="px-6 py-4" scope='row'>{{ $task->description }}</td>
                 </tr>
                 <tr class="bg-gray-50 dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200">
+                    <th class="px-6 py-4" scope='row'>Due date</th>
+                    <td class="px-6 py-4" scope='row'>
+                        @if ($task->due_date !== null)
+                            {{ $task->due_date }}
+                        @else
+                            No due date
+                        @endif
+                    </td>
+                </tr>
+                <tr class="bg-gray-50 dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200">
                     <th class="px-6 py-4" scope='row'>State</th>
                     <td class="px-6 py-4" scope='row'>
                         <p class="{{ $task->state->cssClass() }}">{{ $task->state->label() }}</p>

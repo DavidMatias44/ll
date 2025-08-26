@@ -52,7 +52,7 @@
                 <thead class="text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
                         <th scope="col" class="px-6 py-3">Name</th>
-                        <th scope="col" class="px-6 py-3">Description</th>
+                        <th scope="col" class="px-6 py-3">Due date</th>
                         <th scope="col" class="px-6 py-3">Priority</th>
                         <th scope="col" class="px-6 py-3">State</th>
                         <th scope="col" class="px-6 py-3">Actions</th>
@@ -62,7 +62,14 @@
                     @foreach ($tasks as $task)
                         <tr class="bg-gray-50 dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200">
                             <td class="px-6 py-4" scope='row'>{{ $task->name }}</td>
-                            <td class="px-6 py-4">{{ $task->description }}</td>
+                            <td class="px-6 py-4">
+                                
+                                @if ($task->due_date !== null)
+                                    {{ $task->due_date }}
+                                @else
+                                    No due date
+                                @endif
+                            </td>
                             <td class="px-6 py-4">
                                 <p class="{{ $task->priority->cssClass() }}">{{ $task->priority->label() }}</p>
                             </td>
