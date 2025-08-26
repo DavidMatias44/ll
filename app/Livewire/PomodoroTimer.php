@@ -18,6 +18,7 @@ class PomodoroTimer extends Component
             session()->put([
                 'pomodoro.currentPomodoro' => $this->currentPomodoro,
                 'pomodoro.timerIsRunning' => $this->timerIsRunning,
+                'pomodoro.state' => $this->pomodoroState,
                 'pomodoro.timeLeftInSeconds' => $this->pomodoroState->getTotalTime(),
             ]);
             $this->timeLeftInSeconds = $this->pomodoroState->getTotalTime();
@@ -27,6 +28,7 @@ class PomodoroTimer extends Component
 
         $this->currentPomodoro = session()->get('pomodoro.currentPomodoro');
         $this->timerIsRunning = session()->get('pomodoro.timerIsRunning');
+        $this->pomodoroState = session()->get('pomodoro.state');
         $this->timeLeftInSeconds = session()->get('pomodoro.timeLeftInSeconds');
 
         if ($this->timerIsRunning) {
@@ -84,6 +86,7 @@ class PomodoroTimer extends Component
 
         session()->put('pomodoro.currentPomodoro', $this->currentPomodoro);
         session()->put('pomodoro.timeLeftInSeconds', $this->pomodoroState->getTotalTime());
+        session()->put('pomodoro.state', $this->pomodoroState);
         $this->timeLeftInSeconds = $this->pomodoroState->getTotalTime();
     }
 
