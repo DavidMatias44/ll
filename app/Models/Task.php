@@ -4,9 +4,11 @@ namespace App\Models;
 
 use App\Enums\Tasks\Priority;
 use App\Enums\Tasks\State;
+use App\Models\Pomodoro;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Task extends Model
 {
@@ -41,5 +43,10 @@ class Task extends Model
     public function scopePriority($query, $priority)
     {
         return $query->when(! is_null($priority), fn ($q) => $q->where('priority', $priority));
+    }
+
+    public function pomodoros(): HasMany
+    {
+        return $this->hasMany(Pomodoro::class);
     }
 }
