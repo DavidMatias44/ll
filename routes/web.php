@@ -42,11 +42,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
             return view('pomodoro')->with('tasks', $tasks);
         })->name('pomodoro.timer');
-
-        Route::post('/{taskId}', function (Request $request) {
-            // dd($request->task_id);
-            session()->put('pomorodo.currentTaskId', $request->task_id);
-        })->name('pomodoro.taskWasSelected');
     });
 });
 
