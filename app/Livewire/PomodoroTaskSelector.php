@@ -32,6 +32,15 @@ class PomodoroTaskSelector extends Component
         $taskId = session()->get('pomodoro.taskId');
         if ($taskId) {
             $this->task = Task::findOrFail($taskId);
+            $this->updateTaskState();
+        }
+    }
+
+    public function updateTaskState()
+    {
+        if ($this->task->state == State::TODO) {
+            $this->task->state = State::IN_PROGRESS;
+            $this->task->save();
         }
     }
 
