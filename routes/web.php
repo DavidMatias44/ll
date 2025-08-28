@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\PomodoroController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TaskImportController;
@@ -34,7 +33,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 
     Route::prefix('pomodoro')->group(function () {
-        Route::get('/', [PomodoroController::class, 'index'])->name('pomodoro.timer');
+        Route::get('/', function () {
+            return view('pomodoro');
+        })->name('pomodoro.timer');
     });
 });
 
