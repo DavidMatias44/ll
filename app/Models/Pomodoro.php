@@ -8,7 +8,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Pomodoro extends Model
 {
     protected $fillable = [
-
+        'user_id',
+        'task_id',
+        'num_session',
+        'time',
     ];
 
     protected $hidden = [];
