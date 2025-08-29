@@ -4,13 +4,15 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use App\Enums\Pomodoro\State;
+use App\Models\Pomodoro;
+use Auth;
 
 class PomodoroTimer extends Component
 {
     public State $pomodoroState = State::POMODORO;
     public int $currentPomodoro = 1;
     public bool $timerIsRunning = false;
-    public int $timeLeftInSeconds;
+    public int $timeLeftInSeconds;          
 
     public function mount()
     {
@@ -72,22 +74,39 @@ class PomodoroTimer extends Component
     public function skipToNextPomodoro()
     {
         $this->timerStop();
+        $this->changePomodoroState();
 
+        session()->put([
+            'pomodoro.currentPomodoro' => $this->currentPomodoro,
+            'pomodoro.timeLeftInSeconds' => $this->pomodoroState->getTotalTime(),
+            'pomodoro.state' => $this->pomodoroState
+        ]);
+        $this->timeLeftInSeconds = $this->pomodoroState->getTotalTime();
+    }
+
+    public function changePomodoroState()
+    {
         if ($this->pomodoroState === State::POMODORO) {
-            if ($this->currentPomodoro % 4 == 0) {
-                $this->pomodoroState = State::LONG_BREAK;
-            } else {
-                $this->pomodoroState = State::SHORT_BREAK;
-            }
-        } else {
-            $this->pomodoroState = State::POMODORO;
-            $this->currentPomodoro++;
+            $this->pomodoroState = ($this->currentPomodoro % 4 == 0) ? State::LONG_BREAK : State::SHORT_BREAK;
+            $this->storePomodoroData();
+            return;
         }
 
-        session()->put('pomodoro.currentPomodoro', $this->currentPomodoro);
-        session()->put('pomodoro.timeLeftInSeconds', $this->pomodoroState->getTotalTime());
-        session()->put('pomodoro.state', $this->pomodoroState);
-        $this->timeLeftInSeconds = $this->pomodoroState->getTotalTime();
+        $this->pomodoroState = State::POMODORO;
+        $this->currentPomodoro++;
+    }
+
+    public function storePomodoroData()
+    {
+        $pomodoro = new Pomodoro([
+            'user_id' => Auth::id(),
+            'time' => State::POMODORO->getTotalTime() - session()->get('pomodoro.timeLeftInSeconds'),
+            'num_session' => $this->currentPomodoro,
+        ]);
+        if (session()->has('pomodoro.taskId')) {
+            $pomodoro['task_id'] = session()->get('pomodoro.taskId');
+        }
+        $pomodoro->save();
     }
 
     public function render()

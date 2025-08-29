@@ -44,5 +44,4 @@
     @else
         <button wire:click="timerStart" type="button" class="text-xl w-1/4 mt-6 bg-gray-600 hover:bg-gray-700 text-gray-800 dark:text-gray-100 py-2 px-4 rounded disabled:bg-gray-700 disabled:cursor-not-allowed">Start timer</button>
     @endif
-
 </div>
